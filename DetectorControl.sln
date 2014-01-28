@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DetectorControl", "DetectorControl.vcxproj", "{B5420E13-4DDC-4FBF-817D-277FBC29098C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DetectorControlPS", "DetectorControlPS.vcxproj", "{4141BFBB-ED1B-43EF-B9D9-8AAFED2F6725}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B5420E13-4DDC-4FBF-817D-277FBC29098C} = {B5420E13-4DDC-4FBF-817D-277FBC29098C}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5420E13-4DDC-4FBF-817D-277FBC29098C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B5420E13-4DDC-4FBF-817D-277FBC29098C}.Debug|Win32.Build.0 = Debug|Win32
+		{B5420E13-4DDC-4FBF-817D-277FBC29098C}.Release|Win32.ActiveCfg = Release|Win32
+		{B5420E13-4DDC-4FBF-817D-277FBC29098C}.Release|Win32.Build.0 = Release|Win32
+		{4141BFBB-ED1B-43EF-B9D9-8AAFED2F6725}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4141BFBB-ED1B-43EF-B9D9-8AAFED2F6725}.Release|Win32.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

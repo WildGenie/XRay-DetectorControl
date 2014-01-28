@@ -1,0 +1,254 @@
+// DetectorControl.idl : DetectorControl 的 IDL 源
+//
+
+// 此文件将由 MIDL 工具处理以
+// 产生类型库(DetectorControl.tlb)和封送处理代码。
+
+#include "olectl.h"
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(F9C9CB4E-7202-4E3F-BFB3-A74BC9DE77C3),
+	pointer_default(unique)
+]
+interface ICommandChannel : IUnknown{
+	[propget, helpstring("property IPAddress")] HRESULT IPAddress([out, retval] BSTR* pVal);
+	[propput, helpstring("property IPAddress")] HRESULT IPAddress([in] BSTR newVal);
+	[propget, helpstring("property CmdPort")] HRESULT CmdPort([out, retval] LONG* pVal);
+	[propput, helpstring("property CmdPort")] HRESULT CmdPort([in] LONG newVal);
+	[propget, helpstring("property ObjectHandle")] HRESULT ObjectHandle([out, retval] IUnknown** pVal);
+	[propget, helpstring("property IsOpened")] HRESULT IsOpened([out, retval] LONG* pVal);
+	[propget, helpstring("property LastErrID")] HRESULT LastErrID([out, retval] LONG* pVal);
+	[propget, helpstring("property ChannelType")] HRESULT ChannelType([out, retval] LONG* pVal);
+	[propput, helpstring("property ChannelType")] HRESULT ChannelType([in] LONG newVal);
+	[propget, helpstring("property CmdTimeOut")] HRESULT CmdTimeOut([out, retval] LONG* pVal);
+	[propput, helpstring("property CmdTimeOut")] HRESULT CmdTimeOut([in] LONG newVal);	
+	[, helpstring("method Open")] HRESULT Open([out,retval] LONG* bOK);
+	[, helpstring("method Close")] HRESULT Close(void);
+	[, helpstring("method SendCommand")] HRESULT SendCommand(BSTR bstrCmd, [out] BSTR* bstrRTMsg, [out,retval] LONG* bOK);
+};
+[
+	object,
+	uuid(0852B104-F2F5-485C-A463-38886C8CB4F6),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IScannerImage : IDispatch{
+};
+[
+	object,
+	uuid(383027FD-F712-4040-BA21-ACAC15F268A3),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IScannerDisplay : IDispatch{
+	//[propget, id(1), helpstring("property Width")] HRESULT ImgWidth([out, retval] ULONG* pVal);
+	//[propput, id(1), helpstring("property Width")] HRESULT ImgWidth([in] ULONG newVal);
+	//[propget, id(2), helpstring("property Height")] HRESULT ImgHeight([out, retval] ULONG* pVal);
+	//[propput, id(2), helpstring("property Height")] HRESULT ImgHeight([in] ULONG newVal);
+	//
+	//[propget, id(3), helpstring("property Gamma")] HRESULT Gamma([out, retval] FLOAT* pVal);
+	//[propput, id(3), helpstring("property Gamma")] HRESULT Gamma([in] FLOAT newVal);
+	//[propget, id(4), helpstring("property MapStart")] HRESULT MapStart([out, retval] LONG* pVal);
+	//[propput, id(4), helpstring("property MapStart")] HRESULT MapStart([in] LONG newVal);
+	//[propget, id(5), helpstring("property MapEnd")] HRESULT MapEnd([out, retval] LONG* pVal);
+	//[propput, id(5), helpstring("property MapEnd")] HRESULT MapEnd([in] LONG newVal);
+
+	//[propget, id(6), helpstring("property DataSource")] HRESULT DataSource([out, retval] IUnknown** pVal);
+	//[propput, id(6), helpstring("property DataSource")] HRESULT DataSource([in] IUnknown* newVal);
+
+	//[id(8), helpstring("method Open")] HRESULT Open([out,retval] LONG* bOK);
+	//[id(9), helpstring("method Close")] HRESULT Close(void);
+
+	//[propget, id(10), helpstring("property RefreshMode")] HRESULT RefreshMode([out, retval] LONG* pVal);
+	//[propput, id(10), helpstring("property RefreshMode")] HRESULT RefreshMode([in] LONG newVal);
+	//[propget, id(11), helpstring("property RefreshRate")] HRESULT RefreshRate([out, retval] LONG* pVal);
+	//[propput, id(11), helpstring("property RefreshRate")] HRESULT RefreshRate([in] LONG newVal);
+	//[propget, id(12), helpstring("property ImageObject")] HRESULT ImageObject([out, retval] IUnknown** pVal);
+	//[propget, id(13), helpstring("property DisplayScale")] HRESULT DisplayScale([out, retval] LONG* pVal);
+	//[propput, id(13), helpstring("property DisplayScale")] HRESULT DisplayScale([in] LONG newVal);
+	//
+	//[id(14), helpstring("method Refresh")] HRESULT Refresh(void);
+	//[propget, id(15), helpstring("property OrgPoint_X")] HRESULT OrgPoint_X([out, retval] LONG* pVal);
+	//[propput, id(15), helpstring("property OrgPoint_X")] HRESULT OrgPoint_X([in] LONG newVal);
+	//[propget, id(16), helpstring("property OrgPoint_Y")] HRESULT OrgPoint_Y([out, retval] LONG* pVal);
+	//[propput, id(16), helpstring("property OrgPoint_Y")] HRESULT OrgPoint_Y([in] LONG newVal);
+	//[id(17), helpstring("method Load")] HRESULT Load(BSTR FilePath);
+	//[id(18), helpstring("method Save")] HRESULT Save(BSTR FilePath);
+	//[propget, id(19), helpstring("property ObjectHandle")] HRESULT ObjectHandle([out, retval] IUnknown** pVal);
+	//[id(20), helpstring("method RepaintDisplay")] HRESULT RepaintDisplay(void);
+
+};
+
+[
+	object,
+	uuid(5ED30CFC-6EB8-41F3-93B5-BF86191DCA9E),
+	pointer_default(unique)
+]
+interface IFrameObject : IUnknown{
+	[propget, helpstring("property ImageDataAddress")] HRESULT ImageDataAddress([out, retval] LONG* pVal);
+	[propput, helpstring("property ImageDataAddress")] HRESULT ImageDataAddress([in] LONG newVal);
+	[propget, helpstring("property Width")] HRESULT Width([out, retval] LONG* pVal);
+	[propget, helpstring("property Height")] HRESULT Height([out, retval] LONG* pVal);
+	[propget, helpstring("property BytesPerPixel")] HRESULT BytesPerPixel([out, retval] LONG* pVal);
+	[propget, helpstring("property Pixel")] HRESULT Pixel([in] LONG X, [in] LONG Y, [out, retval] LONG* pVal);
+	[propput, helpstring("property Pixel")] HRESULT Pixel([in] LONG X, [in] LONG Y, [in] LONG newVal);
+	[, helpstring("method Open")] HRESULT Open([in] LONG Width, [in] LONG Height, [in] LONG BytesPerPixel);
+	[propget, helpstring("property ImageLineAddress")] HRESULT ImageLineAddress([in] LONG LineIndex, [out, retval] LONG* pVal);
+	[propget, helpstring("method ColAverage")] HRESULT ColAverage([out] LONG* pAvg);
+	[propget, helpstring("method ColMax")] HRESULT ColMax([out] LONG* pMax);
+	[propget, helpstring("method ColMin")] HRESULT ColMin([out] LONG* pMin);
+	[propget, helpstring("method RowMin")] HRESULT RowMin([out] LONG* pMin);
+	[propget, helpstring("method RowMax")] HRESULT RowMax([out] LONG* pMax);
+	[propget, helpstring("method RowAverage")] HRESULT RowAverage(LONG* pAvg);
+	[propget, helpstring("method ColNoise")] HRESULT ColNoise([out] FLOAT* pNoise);
+	[propget, helpstring("method RowNoise")] HRESULT RowNoise([out] FLOAT* pNoise);
+
+};
+[
+	object,
+	uuid(8C36086B-9A03-4202-B3A1-8773A18E95F8),
+	pointer_default(unique)
+]
+interface IScanner : IUnknown{
+	//[propget, id(1), helpstring("property DetectorObject")] HRESULT DetectorObject([out, retval] IUnknown** pVal);
+	//[propput, id(1), helpstring("property DetectorObject")] HRESULT DetectorObject([in] IUnknown* newVal);
+	//[id(2), helpstring("method OffBoardCalibration")] HRESULT OffBoardCalibration([in] LONG CalibrationType, [in] IUnknown* pImgObject, [in] LONG StartPixel, [in] LONG EndPixel, [in] LONG TargetValue);
+
+	//[propget, id(3), helpstring("property Gain")] HRESULT Gain([in] LONG Index, [out, retval] FLOAT* pVal);
+	//[propput, id(3), helpstring("property Gain")] HRESULT Gain([in] LONG Index, [in] FLOAT newVal);
+	//[propget, id(4), helpstring("property Offset")] HRESULT Offset([in] LONG Index, [out, retval] LONG* pVal);
+	//[propput, id(4), helpstring("property Offset")] HRESULT Offset([in] LONG Index, [in] LONG newVal);
+	//[propget, id(5), helpstring("property CorrectionGain")] HRESULT CorrectionGain([out, retval] LONG* pVal);
+	//[propput, id(5), helpstring("property CorrectionGain")] HRESULT CorrectionGain([in] LONG newVal);
+	//[propget, id(6), helpstring("property CorrectionOffset")] HRESULT CorrectionOffset([out, retval] LONG* pVal);
+	//[propput, id(6), helpstring("property CorrectionOffset")] HRESULT CorrectionOffset([in] LONG newVal);
+	//[propget, id(7), helpstring("property CorrectionBaseline")] HRESULT CorrectionBaseline([out, retval] LONG* pVal);
+	//[propput, id(7), helpstring("property CorrectionBaseline")] HRESULT CorrectionBaseline([in] LONG newVal);
+	//[propget, id(8), helpstring("property Baseline")] HRESULT Baseline([out, retval] LONG* pVal);
+	//[propput, id(8), helpstring("property Baseline")] HRESULT Baseline([in] LONG newVal);
+	//[propget, id(9), helpstring("property IntegrationTime")] HRESULT IntegrationTime([out, retval] LONG* pVal);
+	//[propput, id(9), helpstring("property IntegrationTime")] HRESULT IntegrationTime([in] LONG newVal);
+	//[propget, id(10), helpstring("property AverageFilter")] HRESULT AverageFilter([out, retval] LONG* pVal);
+	//[propput, id(10), helpstring("property AverageFilter")] HRESULT AverageFilter([in] LONG newVal);
+	//[propget, id(11), helpstring("property DataPattern")] HRESULT DataPattern([out, retval] LONG* pVal);
+	//[propput, id(11), helpstring("property DataPattern")] HRESULT DataPattern([in] LONG newVal);
+	//[propget, id(12), helpstring("property FrameTrigger")] HRESULT FrameTrigger([out, retval] LONG* pVal);
+	//[propput, id(12), helpstring("property FrameTrigger")] HRESULT FrameTrigger([in] LONG newVal);
+	//[propget, id(13), helpstring("property LineTrigger")] HRESULT LineTrigger([out, retval] LONG* pVal);
+	//[propput, id(13), helpstring("property LineTrigger")] HRESULT LineTrigger([in] LONG newVal);
+	//[id(14), helpstring("method Initialize")] HRESULT Initialize([in] LONG Mode);
+	//[id(15), helpstring("method SaveOffset")] HRESULT SaveOffset(void);
+	//[id(16), helpstring("method SaveGain")] HRESULT SaveGain([in] LONG Index);
+	//[id(17), helpstring("method LoadOffset")] HRESULT LoadOffset(void);
+	//[id(18), helpstring("method LoadGain")] HRESULT LoadGain([in] LONG Index);
+	//[propget, id(19), helpstring("property OutputBits")] HRESULT OutputBits([out, retval] LONG* pVal);
+	//[propput, id(19), helpstring("property OutputBits")] HRESULT OutputBits([in] LONG newVal);
+	//[id(20), helpstring("method SendExFrameTrigger")] HRESULT SendExFrameTrigger(void);
+	//[propget, id(21), helpstring("property FrameOut")] HRESULT FrameOut([out, retval] LONG* pVal);
+	//[propput, id(21), helpstring("property FrameOut")] HRESULT FrameOut([in] LONG newVal);
+	//[propget, id(22), helpstring("property ImageOutputType")] HRESULT ImageOutputType([out, retval] LONG* pVal);
+	//[propput, id(22), helpstring("property ImageOutputType")] HRESULT ImageOutputType([in] LONG newVal);
+	//[propget, id(23), helpstring("property SensitivityLevel")] HRESULT SensitivityLevel([out, retval] LONG* pVal);
+	//[propput, id(23), helpstring("property SensitivityLevel")] HRESULT SensitivityLevel([in] LONG newVal);
+	//[propget, id(24), helpstring("property SumLines")] HRESULT SumLines([out, retval] LONG* pVal);
+	//[propput, id(24), helpstring("property SumLines")] HRESULT SumLines([in] LONG newVal);
+	//[id(25), helpstring("method WriteDataPattern")] HRESULT WriteDataPattern([in] LONG Base, [in] LONG Step);
+	//[propget, id(26), helpstring("property IsOpened")] HRESULT IsOpened([out, retval] LONG* pVal);
+	//[propget, id(27), helpstring("property ModuleTypeNmae")] HRESULT ModuleTypeName([out, retval] BSTR* pVal);
+	//[id(28), helpstring("method SaveCurrentStatus")] HRESULT SaveCurrentStatus(void);
+	//[propget, id(29), helpstring("property PixelSize")] HRESULT PixelSize([out, retval] FLOAT* pVal);
+	//[propget, id(30), helpstring("property PixelNumber")] HRESULT PixelNumber([out, retval] LONG* pVal);
+	//[propget, id(31), helpstring("property ModuleType")] HRESULT ModuleType([out, retval] LONG* pVal);
+	//[propget, id(32), helpstring("property MaxIntTime")] HRESULT MaxIntTime([out, retval] LONG* pVal);
+	//[propget, id(33), helpstring("property MinIntTime")] HRESULT MinIntTime([out, retval] LONG* pVal);
+	//[propget, id(34), helpstring("property OverallGain")] HRESULT OverallGain([out, retval] FLOAT* pVal);
+	//[propput, id(34), helpstring("property OverallGain")] HRESULT OverallGain([in] FLOAT newVal);
+	//[propget, id(35), helpstring("property StartPixel")] HRESULT StartPixel([out, retval] LONG* pVal);
+	//[propput, id(35), helpstring("property StartPixel")] HRESULT StartPixel([in] LONG newVal);
+	//[propget, id(36), helpstring("property EndPixel")] HRESULT EndPixel([out, retval] LONG* pVal);
+	//[propput, id(36), helpstring("property EndPixel")] HRESULT EndPixel([in] LONG newVal);
+	//[id(37), helpstring("method OnBoardOffsetCalibration")] HRESULT OnBoardOffsetCalibration(void);
+	//[id(38), helpstring("method OnBoardGainCalibration")] HRESULT OnBoardGainCalibration([in] LONG TargetValue);
+	//[id(39), helpstring("method ResetGain")] HRESULT ResetGain(void);
+	//[id(40), helpstring("method ResetOffset")] HRESULT ResetOffset(void);
+	//[propget, id(41), helpstring("property FPGA_Version")] HRESULT FPGA_Version([out, retval] LONG* pVal);
+	//[propget, id(42), helpstring("property FPGA_Build")] HRESULT FPGA_Build([out, retval] LONG* pVal);
+	//[propget, id(43), helpstring("property MCU_Version")] HRESULT MCU_Version([out, retval] LONG* pVal);
+	//
+	//[propget, id(44), helpstring("property SerialNumber")] HRESULT SerialNumber([out, retval] BSTR* pVal);
+	//[id(45), helpstring("method RetrieveSysinfo")] HRESULT RetrieveSysinfo(void);
+
+};
+[
+	uuid(CC051077-5D48-4254-94C3-2AC2C9B86239),
+	version(1.0),
+]
+library DetectorControlLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(BAF59343-011A-4437-A083-964A32319FC7)		
+	]
+	coclass CommandChannel
+	{
+		[default] interface ICommandChannel;
+	};
+	[
+		uuid(E80A089C-354D-4CE9-9BFB-0F2D4F744E76)		
+	]
+	dispinterface _IScannerImageEvents
+	{
+		properties:
+		methods:
+			[id(1), helpstring("method FrameReady")] HRESULT FrameReady([in] LONG NumLines);
+			[id(2), helpstring("method SubFrameReady")] HRESULT SubFrameReady([in] LONG NumOfBlockLeft, [in] LONG StartLine, [in] LONG NumLines, [in] LONG bLastBlock);
+			[id(3), helpstring("method LineLost")] HRESULT LineLost(LONG LostlineNum);
+			[id(4), helpstring("method OnError")] HRESULT OnError([in] LONG ErrorID, [in] BSTR ErrorInfo);
+	};
+	[
+		uuid(8E7A5B32-5358-4B51-AABA-D9299EDBA835)		
+	]
+	coclass ScannerImage
+	{
+		[default] interface IScannerImage;
+		[default, source] dispinterface _IScannerImageEvents;
+	};
+	[
+		uuid(0A01CC4C-400D-4209-ACFD-F5419A5AFE8D)		
+	]
+	dispinterface _IScannerDisplayEvents
+	{
+		properties:
+		methods:
+			[id(1), helpstring("method MouseMove")] HRESULT MousePixelInfo([in] LONG X, [in] LONG Y,[in] LONG Value);
+	};
+	[
+		uuid(34A39CDC-773F-494E-B0F0-7FCB71A5256E),		
+		control
+	]
+	coclass ScannerDisplay
+	{
+		[default] interface IScannerDisplay;
+		[default, source] dispinterface _IScannerDisplayEvents;
+	};
+	[
+		uuid(B17A9A50-BB2B-4068-8DB1-D2B8D73FDD1F)		
+	]
+	coclass FrameObject
+	{
+		[default] interface IFrameObject;
+	};
+	[
+		uuid(23BE38C8-39D4-4166-A513-95F6BA9C3A2E)		
+	]
+	coclass Scanner
+	{
+		[default] interface IScanner;
+	};
+};
+

@@ -1,0 +1,15 @@
+HKCR
+{
+	NoRemove CLSID
+	{
+		ForceRemove {23BE38C8-39D4-4166-A513-95F6BA9C3A2E} = s 'Scanner Class'
+		{
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			TypeLib = s '{CC051077-5D48-4254-94C3-2AC2C9B86239}'
+			Version = s '1.0'
+		}
+	}
+}

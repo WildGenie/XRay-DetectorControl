@@ -1,0 +1,15 @@
+HKCR
+{
+	NoRemove CLSID
+	{
+		ForceRemove {BAF59343-011A-4437-A083-964A32319FC7} = s 'CommandChannel Class'
+		{
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Free'
+			}
+			TypeLib = s '{CC051077-5D48-4254-94C3-2AC2C9B86239}'
+			Version = s '1.0'
+		}
+	}
+}

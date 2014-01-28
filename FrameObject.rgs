@@ -1,0 +1,15 @@
+HKCR
+{
+	NoRemove CLSID
+	{
+		ForceRemove {B17A9A50-BB2B-4068-8DB1-D2B8D73FDD1F} = s 'FrameObject Class'
+		{
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Free'
+			}
+			TypeLib = s '{CC051077-5D48-4254-94C3-2AC2C9B86239}'
+			Version = s '1.0'
+		}
+	}
+}
