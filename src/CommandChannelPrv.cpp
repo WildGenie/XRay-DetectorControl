@@ -1,4 +1,4 @@
-// DTDetector.cpp : Implementation of CommandChannelPrv
+
 #include "../stdafx.h"
 #include "CommandChannelPrv.h"
 #include "LibConst.h"
@@ -333,69 +333,3 @@ int CommandChannelPrv::RevNETData(CHAR* pRT,WORD BuffSize)
 	};
 	return Index;
 };
-//int CommandChannelPrv::SendSerialData(CHAR* pStrCmd)
-//{
-//	DWORD len;
-//	m_Serial.Write(pStrCmd,strlen(pStrCmd),&len);
-//	return len;
-	
-//};
-//int CommandChannelPrv::RevSerialData(CHAR* pRT,WORD BuffSize)
-//{
-//	DWORD len;
-//	m_Serial.Read(pRT,BuffSize,&len);
-//	return len;
-//};
-//BOOL CommandChannelPrv::TestConnection()
-//{
-//	CHAR REVBUF[REV_BUF_SIZE];
-//	CHAR CMDBUF[10];
-//	memset(REVBUF,0,REV_BUF_SIZE);
-//	LONG bOK;
-//	sprintf(CMDBUF,"[RI]");
-//	switch(m_CardType)
-//	{
-//		case DT_SERIAL:
-//			SendSerialData(CMDBUF);
-//			Sleep(m_TimeOut);
-//			RevSerialData(REVBUF);
-//			break;
-//		case DT_USB:
-//			if(SendUSBData(CMDBUF))
-//			{
-//				//Sleep(m_TimeOut);
-//				RevUSBData(REVBUF);
-//			}
-//			break;
-//		case DT_NET:
-//			int len =0;
-//			len = SendNETData(CMDBUF);
-//			Sleep(m_TimeOut);
-//			len = RevNETData(REVBUF);
-//			break;
-//	}
-
-//	if(strchr(REVBUF,'['))
-//	{
-//		return TRUE;
-//	}
-//	else
-//	{
-//		return FALSE;
-//	}
-	
-//}
-//long CommandChannelPrv::get_BaudRate(LONG* pVal)
-//{
-//	// TODO: Add your implementation code here
-//	*pVal = m_BaudRate;
-//	return 0;
-//}
-
-//long CommandChannelPrv::put_BaudRate(LONG newVal)
-//{
-//	// TODO: Add your implementation code here
-//	m_BaudRate = newVal;
-//	return 0;
-//}
-

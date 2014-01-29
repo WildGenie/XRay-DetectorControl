@@ -7,14 +7,6 @@
 #pragma comment(lib, "comsuppw.lib")
 // CCommandChannel
 
-// DTDetector.cpp : Implementation of CommandChannel
-#include "stdafx.h"
-
-#include <comutil.h>
-
-
-// CommandChannel
-
 long CCommandChannel::get_IPAddress(BSTR* pVal)
 {
 	CComBSTR bstrRT(m_pCommandChannelPrv->get_IPAddress());
@@ -86,6 +78,12 @@ STDMETHODIMP CCommandChannel::Open(LONG* bOK)
 STDMETHODIMP CCommandChannel::Close(void)
 {
 	m_pCommandChannelPrv->Close();
+	return S_OK;
+}
+
+STDMETHODIMP CCommandChannel::SendCommandA(CHAR* pSendCmd, CHAR* pRTBuffer,LONG* pbSuccess)
+{
+	m_pCommandChannelPrv->SendCommandA(pSendCmd, pRTBuffer, pbSuccess);
 	return S_OK;
 }
 

@@ -1,12 +1,12 @@
 #pragma once
 
-class CDTException
+class CScannerException
 {
 	public:
 	int m_ERROR_ID;
 	BSTR m_ERROR_INFO;
-	CDTException(int ID);
-	~CDTException(void);
+    CScannerException(int ID);
+    ~CScannerException(void);
 	void PrintErrInfo();
 	void ProcessError();
 };

@@ -1,13 +1,14 @@
 #pragma once
-#include "dtframebufif.h"
+#include "framebufif.h"
+
 typedef BYTE* PBYTE;
 class CEventManagerIF;
-class CDTFrameBuf :
-	public CDTFrameBufIF
+class CFrameBuf :
+    public CFrameBufIF
 {
 public:
-	CDTFrameBuf(void);
-	virtual ~CDTFrameBuf(void);
+    CFrameBuf(void);
+    virtual ~CFrameBuf(void);
 private:
 	// The width of the image
 	unsigned int m_FrameWidth;
@@ -31,7 +32,7 @@ private:
 	unsigned int	m_CurLinePos;//Store the current line size;
 	
 	CEventManagerIF* m_pEventManager;
-	IImageObject*	m_pImageObject;
+	IFrameObject*	m_pImageObject;
 public:
 	void AddOneFrameLine(BYTE* pSrc,unsigned int Size,BOOL bLineEnd);
 	bool Create(CEventManagerIF* pEventManager,unsigned int FrameWidth, unsigned int FrameLength, unsigned int BytesPerPixel, unsigned int SubFrameNum, unsigned int FrameBufNum);
@@ -39,7 +40,7 @@ public:
 	unsigned int  GetFrameWidth();
 	unsigned int  GetFrameLength();
 	unsigned int  GetBytesPerPixel();
-	void SetImageObject(IImageObject* pImageObject);
+	void SetImageObject(IFrameObject* pImageObject);
 	void Reset();
 	
 };

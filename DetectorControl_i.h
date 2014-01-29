@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0555 */
-/* at Tue Jan 28 17:31:07 2014
+/* at Wed Jan 29 21:25:42 2014
  */
 /* Compiler settings for DetectorControl.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
@@ -44,6 +44,12 @@
 #endif
 
 /* Forward Declarations */ 
+
+#ifndef __IFrameReadyCallBack_FWD_DEFINED__
+#define __IFrameReadyCallBack_FWD_DEFINED__
+typedef interface IFrameReadyCallBack IFrameReadyCallBack;
+#endif 	/* __IFrameReadyCallBack_FWD_DEFINED__ */
+
 
 #ifndef __ICommandChannel_FWD_DEFINED__
 #define __ICommandChannel_FWD_DEFINED__
@@ -156,6 +162,101 @@ extern "C"{
 #endif 
 
 
+#ifndef __IFrameReadyCallBack_INTERFACE_DEFINED__
+#define __IFrameReadyCallBack_INTERFACE_DEFINED__
+
+/* interface IFrameReadyCallBack */
+/* [unique][uuid][object] */ 
+
+
+EXTERN_C const IID IID_IFrameReadyCallBack;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("FA6DA72C-D386-4F1A-A288-F7A821A6D13B")
+    IFrameReadyCallBack : public IUnknown
+    {
+    public:
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE FrameReady( 
+            /* [in] */ LONG NumLines) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE SubFrameReady( 
+            /* [in] */ LONG NumOfBlockLeft,
+            /* [in] */ LONG StartLine,
+            /* [in] */ LONG NumLines,
+            /* [in] */ LONG bLastBlock) = 0;
+        
+    };
+    
+#else 	/* C style interface */
+
+    typedef struct IFrameReadyCallBackVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IFrameReadyCallBack * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            __RPC__deref_out  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IFrameReadyCallBack * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IFrameReadyCallBack * This);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *FrameReady )( 
+            IFrameReadyCallBack * This,
+            /* [in] */ LONG NumLines);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *SubFrameReady )( 
+            IFrameReadyCallBack * This,
+            /* [in] */ LONG NumOfBlockLeft,
+            /* [in] */ LONG StartLine,
+            /* [in] */ LONG NumLines,
+            /* [in] */ LONG bLastBlock);
+        
+        END_INTERFACE
+    } IFrameReadyCallBackVtbl;
+
+    interface IFrameReadyCallBack
+    {
+        CONST_VTBL struct IFrameReadyCallBackVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IFrameReadyCallBack_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IFrameReadyCallBack_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IFrameReadyCallBack_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IFrameReadyCallBack_FrameReady(This,NumLines)	\
+    ( (This)->lpVtbl -> FrameReady(This,NumLines) ) 
+
+#define IFrameReadyCallBack_SubFrameReady(This,NumOfBlockLeft,StartLine,NumLines,bLastBlock)	\
+    ( (This)->lpVtbl -> SubFrameReady(This,NumOfBlockLeft,StartLine,NumLines,bLastBlock) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IFrameReadyCallBack_INTERFACE_DEFINED__ */
+
+
 #ifndef __ICommandChannel_INTERFACE_DEFINED__
 #define __ICommandChannel_INTERFACE_DEFINED__
 
@@ -212,6 +313,11 @@ EXTERN_C const IID IID_ICommandChannel;
         virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE SendCommand( 
             BSTR bstrCmd,
             /* [out] */ BSTR *bstrRTMsg,
+            /* [retval][out] */ LONG *bOK) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE SendCommandA( 
+            /* [in] */ CHAR *Cmd,
+            /* [out] */ CHAR *pRT,
             /* [retval][out] */ LONG *bOK) = 0;
         
     };
@@ -291,6 +397,12 @@ EXTERN_C const IID IID_ICommandChannel;
             /* [out] */ BSTR *bstrRTMsg,
             /* [retval][out] */ LONG *bOK);
         
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *SendCommandA )( 
+            ICommandChannel * This,
+            /* [in] */ CHAR *Cmd,
+            /* [out] */ CHAR *pRT,
+            /* [retval][out] */ LONG *bOK);
+        
         END_INTERFACE
     } ICommandChannelVtbl;
 
@@ -356,6 +468,9 @@ EXTERN_C const IID IID_ICommandChannel;
 #define ICommandChannel_SendCommand(This,bstrCmd,bstrRTMsg,bOK)	\
     ( (This)->lpVtbl -> SendCommand(This,bstrCmd,bstrRTMsg,bOK) ) 
 
+#define ICommandChannel_SendCommandA(This,Cmd,pRT,bOK)	\
+    ( (This)->lpVtbl -> SendCommandA(This,Cmd,pRT,bOK) ) 
+
 #endif /* COBJMACROS */
 
 
@@ -382,6 +497,115 @@ EXTERN_C const IID IID_IScannerImage;
     IScannerImage : public IDispatch
     {
     public:
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_ImgHeight( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_ImgHeight( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_ImgWidth( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_ImgWidth( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_BytesPerPixel( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_BytesPerPixel( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_ChannelType( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_ChannelType( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_ImagePort( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_ImagePort( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_DetectorObject( 
+            /* [retval][out] */ IUnknown **pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_DetectorObject( 
+            /* [in] */ IUnknown *newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_IsOpened( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_LastErrID( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE Open( 
+            /* [retval][out] */ LONG *bOK) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE Close( void) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE Grab( 
+            /* [in] */ LONG FrameNum,
+            /* [retval][out] */ LONG *bOK) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE Snap( 
+            /* [in] */ LONG FrameNum,
+            /* [retval][out] */ LONG *bOK) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE PrintErrMsg( 
+            /* [in] */ LONG ErrID,
+            /* [out] */ BSTR *ErrMsg) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_SubFrameHeight( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_SubFrameHeight( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE Stop( void) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_IsGrabing( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_ImageObject( 
+            /* [retval][out] */ IUnknown **pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_BandWidth( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_ObjectHandle( 
+            /* [retval][out] */ IUnknown **pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_TimeOut( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_TimeOut( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_ExFrameTrigger( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_ExFrameTrigger( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [propget] */ HRESULT STDMETHODCALLTYPE get_DualScanMode( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [propput] */ HRESULT STDMETHODCALLTYPE put_DualScanMode( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE OpenMemImage( 
+            LONG width,
+            LONG height,
+            BYTE *data) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE Advise( 
+            /* [in] */ IFrameReadyCallBack *pCallBack,
+            /* [out] */ long *cookie) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE UnAdvise( 
+            /* [in] */ LONG cookie) = 0;
+        
     };
     
 #else 	/* C style interface */
@@ -431,6 +655,150 @@ EXTERN_C const IID IID_IScannerImage;
             /* [out] */ EXCEPINFO *pExcepInfo,
             /* [out] */ UINT *puArgErr);
         
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ImgHeight )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_ImgHeight )( 
+            IScannerImage * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ImgWidth )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_ImgWidth )( 
+            IScannerImage * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_BytesPerPixel )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_BytesPerPixel )( 
+            IScannerImage * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ChannelType )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_ChannelType )( 
+            IScannerImage * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ImagePort )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_ImagePort )( 
+            IScannerImage * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_DetectorObject )( 
+            IScannerImage * This,
+            /* [retval][out] */ IUnknown **pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_DetectorObject )( 
+            IScannerImage * This,
+            /* [in] */ IUnknown *newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_IsOpened )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_LastErrID )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *Open )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *bOK);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *Close )( 
+            IScannerImage * This);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *Grab )( 
+            IScannerImage * This,
+            /* [in] */ LONG FrameNum,
+            /* [retval][out] */ LONG *bOK);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *Snap )( 
+            IScannerImage * This,
+            /* [in] */ LONG FrameNum,
+            /* [retval][out] */ LONG *bOK);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *PrintErrMsg )( 
+            IScannerImage * This,
+            /* [in] */ LONG ErrID,
+            /* [out] */ BSTR *ErrMsg);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_SubFrameHeight )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_SubFrameHeight )( 
+            IScannerImage * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *Stop )( 
+            IScannerImage * This);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_IsGrabing )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ImageObject )( 
+            IScannerImage * This,
+            /* [retval][out] */ IUnknown **pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_BandWidth )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ObjectHandle )( 
+            IScannerImage * This,
+            /* [retval][out] */ IUnknown **pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_TimeOut )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_TimeOut )( 
+            IScannerImage * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ExFrameTrigger )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_ExFrameTrigger )( 
+            IScannerImage * This,
+            /* [in] */ LONG newVal);
+        
+        /* [propget] */ HRESULT ( STDMETHODCALLTYPE *get_DualScanMode )( 
+            IScannerImage * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [propput] */ HRESULT ( STDMETHODCALLTYPE *put_DualScanMode )( 
+            IScannerImage * This,
+            /* [in] */ LONG newVal);
+        
+        HRESULT ( STDMETHODCALLTYPE *OpenMemImage )( 
+            IScannerImage * This,
+            LONG width,
+            LONG height,
+            BYTE *data);
+        
+        HRESULT ( STDMETHODCALLTYPE *Advise )( 
+            IScannerImage * This,
+            /* [in] */ IFrameReadyCallBack *pCallBack,
+            /* [out] */ long *cookie);
+        
+        HRESULT ( STDMETHODCALLTYPE *UnAdvise )( 
+            IScannerImage * This,
+            /* [in] */ LONG cookie);
+        
         END_INTERFACE
     } IScannerImageVtbl;
 
@@ -467,6 +835,111 @@ EXTERN_C const IID IID_IScannerImage;
     ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
 
 
+#define IScannerImage_get_ImgHeight(This,pVal)	\
+    ( (This)->lpVtbl -> get_ImgHeight(This,pVal) ) 
+
+#define IScannerImage_put_ImgHeight(This,newVal)	\
+    ( (This)->lpVtbl -> put_ImgHeight(This,newVal) ) 
+
+#define IScannerImage_get_ImgWidth(This,pVal)	\
+    ( (This)->lpVtbl -> get_ImgWidth(This,pVal) ) 
+
+#define IScannerImage_put_ImgWidth(This,newVal)	\
+    ( (This)->lpVtbl -> put_ImgWidth(This,newVal) ) 
+
+#define IScannerImage_get_BytesPerPixel(This,pVal)	\
+    ( (This)->lpVtbl -> get_BytesPerPixel(This,pVal) ) 
+
+#define IScannerImage_put_BytesPerPixel(This,newVal)	\
+    ( (This)->lpVtbl -> put_BytesPerPixel(This,newVal) ) 
+
+#define IScannerImage_get_ChannelType(This,pVal)	\
+    ( (This)->lpVtbl -> get_ChannelType(This,pVal) ) 
+
+#define IScannerImage_put_ChannelType(This,newVal)	\
+    ( (This)->lpVtbl -> put_ChannelType(This,newVal) ) 
+
+#define IScannerImage_get_ImagePort(This,pVal)	\
+    ( (This)->lpVtbl -> get_ImagePort(This,pVal) ) 
+
+#define IScannerImage_put_ImagePort(This,newVal)	\
+    ( (This)->lpVtbl -> put_ImagePort(This,newVal) ) 
+
+#define IScannerImage_get_DetectorObject(This,pVal)	\
+    ( (This)->lpVtbl -> get_DetectorObject(This,pVal) ) 
+
+#define IScannerImage_put_DetectorObject(This,newVal)	\
+    ( (This)->lpVtbl -> put_DetectorObject(This,newVal) ) 
+
+#define IScannerImage_get_IsOpened(This,pVal)	\
+    ( (This)->lpVtbl -> get_IsOpened(This,pVal) ) 
+
+#define IScannerImage_get_LastErrID(This,pVal)	\
+    ( (This)->lpVtbl -> get_LastErrID(This,pVal) ) 
+
+#define IScannerImage_Open(This,bOK)	\
+    ( (This)->lpVtbl -> Open(This,bOK) ) 
+
+#define IScannerImage_Close(This)	\
+    ( (This)->lpVtbl -> Close(This) ) 
+
+#define IScannerImage_Grab(This,FrameNum,bOK)	\
+    ( (This)->lpVtbl -> Grab(This,FrameNum,bOK) ) 
+
+#define IScannerImage_Snap(This,FrameNum,bOK)	\
+    ( (This)->lpVtbl -> Snap(This,FrameNum,bOK) ) 
+
+#define IScannerImage_PrintErrMsg(This,ErrID,ErrMsg)	\
+    ( (This)->lpVtbl -> PrintErrMsg(This,ErrID,ErrMsg) ) 
+
+#define IScannerImage_get_SubFrameHeight(This,pVal)	\
+    ( (This)->lpVtbl -> get_SubFrameHeight(This,pVal) ) 
+
+#define IScannerImage_put_SubFrameHeight(This,newVal)	\
+    ( (This)->lpVtbl -> put_SubFrameHeight(This,newVal) ) 
+
+#define IScannerImage_Stop(This)	\
+    ( (This)->lpVtbl -> Stop(This) ) 
+
+#define IScannerImage_get_IsGrabing(This,pVal)	\
+    ( (This)->lpVtbl -> get_IsGrabing(This,pVal) ) 
+
+#define IScannerImage_get_ImageObject(This,pVal)	\
+    ( (This)->lpVtbl -> get_ImageObject(This,pVal) ) 
+
+#define IScannerImage_get_BandWidth(This,pVal)	\
+    ( (This)->lpVtbl -> get_BandWidth(This,pVal) ) 
+
+#define IScannerImage_get_ObjectHandle(This,pVal)	\
+    ( (This)->lpVtbl -> get_ObjectHandle(This,pVal) ) 
+
+#define IScannerImage_get_TimeOut(This,pVal)	\
+    ( (This)->lpVtbl -> get_TimeOut(This,pVal) ) 
+
+#define IScannerImage_put_TimeOut(This,newVal)	\
+    ( (This)->lpVtbl -> put_TimeOut(This,newVal) ) 
+
+#define IScannerImage_get_ExFrameTrigger(This,pVal)	\
+    ( (This)->lpVtbl -> get_ExFrameTrigger(This,pVal) ) 
+
+#define IScannerImage_put_ExFrameTrigger(This,newVal)	\
+    ( (This)->lpVtbl -> put_ExFrameTrigger(This,newVal) ) 
+
+#define IScannerImage_get_DualScanMode(This,pVal)	\
+    ( (This)->lpVtbl -> get_DualScanMode(This,pVal) ) 
+
+#define IScannerImage_put_DualScanMode(This,newVal)	\
+    ( (This)->lpVtbl -> put_DualScanMode(This,newVal) ) 
+
+#define IScannerImage_OpenMemImage(This,width,height,data)	\
+    ( (This)->lpVtbl -> OpenMemImage(This,width,height,data) ) 
+
+#define IScannerImage_Advise(This,pCallBack,cookie)	\
+    ( (This)->lpVtbl -> Advise(This,pCallBack,cookie) ) 
+
+#define IScannerImage_UnAdvise(This,cookie)	\
+    ( (This)->lpVtbl -> UnAdvise(This,cookie) ) 
+
 #endif /* COBJMACROS */
 
 
@@ -493,6 +966,93 @@ EXTERN_C const IID IID_IScannerDisplay;
     IScannerDisplay : public IDispatch
     {
     public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ImgWidth( 
+            /* [retval][out] */ ULONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ImgWidth( 
+            /* [in] */ ULONG newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ImgHeight( 
+            /* [retval][out] */ ULONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ImgHeight( 
+            /* [in] */ ULONG newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Gamma( 
+            /* [retval][out] */ FLOAT *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Gamma( 
+            /* [in] */ FLOAT newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_MapStart( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_MapStart( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_MapEnd( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_MapEnd( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_DataSource( 
+            /* [retval][out] */ IUnknown **pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_DataSource( 
+            /* [in] */ IUnknown *newVal) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Open( 
+            /* [retval][out] */ LONG *bOK) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Close( void) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_RefreshMode( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_RefreshMode( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_RefreshRate( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_RefreshRate( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ImageObject( 
+            /* [retval][out] */ IUnknown **pVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_DisplayScale( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_DisplayScale( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Refresh( void) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_OrgPoint_X( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_OrgPoint_X( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_OrgPoint_Y( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_OrgPoint_Y( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Load( 
+            BSTR FilePath) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Save( 
+            BSTR FilePath) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ObjectHandle( 
+            /* [retval][out] */ IUnknown **pVal) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE RepaintDisplay( void) = 0;
+        
     };
     
 #else 	/* C style interface */
@@ -542,6 +1102,123 @@ EXTERN_C const IID IID_IScannerDisplay;
             /* [out] */ EXCEPINFO *pExcepInfo,
             /* [out] */ UINT *puArgErr);
         
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ImgWidth )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ ULONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_ImgWidth )( 
+            IScannerDisplay * This,
+            /* [in] */ ULONG newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ImgHeight )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ ULONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_ImgHeight )( 
+            IScannerDisplay * This,
+            /* [in] */ ULONG newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Gamma )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ FLOAT *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Gamma )( 
+            IScannerDisplay * This,
+            /* [in] */ FLOAT newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_MapStart )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_MapStart )( 
+            IScannerDisplay * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_MapEnd )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_MapEnd )( 
+            IScannerDisplay * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_DataSource )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ IUnknown **pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_DataSource )( 
+            IScannerDisplay * This,
+            /* [in] */ IUnknown *newVal);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Open )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ LONG *bOK);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Close )( 
+            IScannerDisplay * This);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_RefreshMode )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_RefreshMode )( 
+            IScannerDisplay * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_RefreshRate )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_RefreshRate )( 
+            IScannerDisplay * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ImageObject )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ IUnknown **pVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_DisplayScale )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_DisplayScale )( 
+            IScannerDisplay * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Refresh )( 
+            IScannerDisplay * This);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_OrgPoint_X )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_OrgPoint_X )( 
+            IScannerDisplay * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_OrgPoint_Y )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_OrgPoint_Y )( 
+            IScannerDisplay * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Load )( 
+            IScannerDisplay * This,
+            BSTR FilePath);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Save )( 
+            IScannerDisplay * This,
+            BSTR FilePath);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ObjectHandle )( 
+            IScannerDisplay * This,
+            /* [retval][out] */ IUnknown **pVal);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *RepaintDisplay )( 
+            IScannerDisplay * This);
+        
         END_INTERFACE
     } IScannerDisplayVtbl;
 
@@ -577,6 +1254,96 @@ EXTERN_C const IID IID_IScannerDisplay;
 #define IScannerDisplay_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
     ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
 
+
+#define IScannerDisplay_get_ImgWidth(This,pVal)	\
+    ( (This)->lpVtbl -> get_ImgWidth(This,pVal) ) 
+
+#define IScannerDisplay_put_ImgWidth(This,newVal)	\
+    ( (This)->lpVtbl -> put_ImgWidth(This,newVal) ) 
+
+#define IScannerDisplay_get_ImgHeight(This,pVal)	\
+    ( (This)->lpVtbl -> get_ImgHeight(This,pVal) ) 
+
+#define IScannerDisplay_put_ImgHeight(This,newVal)	\
+    ( (This)->lpVtbl -> put_ImgHeight(This,newVal) ) 
+
+#define IScannerDisplay_get_Gamma(This,pVal)	\
+    ( (This)->lpVtbl -> get_Gamma(This,pVal) ) 
+
+#define IScannerDisplay_put_Gamma(This,newVal)	\
+    ( (This)->lpVtbl -> put_Gamma(This,newVal) ) 
+
+#define IScannerDisplay_get_MapStart(This,pVal)	\
+    ( (This)->lpVtbl -> get_MapStart(This,pVal) ) 
+
+#define IScannerDisplay_put_MapStart(This,newVal)	\
+    ( (This)->lpVtbl -> put_MapStart(This,newVal) ) 
+
+#define IScannerDisplay_get_MapEnd(This,pVal)	\
+    ( (This)->lpVtbl -> get_MapEnd(This,pVal) ) 
+
+#define IScannerDisplay_put_MapEnd(This,newVal)	\
+    ( (This)->lpVtbl -> put_MapEnd(This,newVal) ) 
+
+#define IScannerDisplay_get_DataSource(This,pVal)	\
+    ( (This)->lpVtbl -> get_DataSource(This,pVal) ) 
+
+#define IScannerDisplay_put_DataSource(This,newVal)	\
+    ( (This)->lpVtbl -> put_DataSource(This,newVal) ) 
+
+#define IScannerDisplay_Open(This,bOK)	\
+    ( (This)->lpVtbl -> Open(This,bOK) ) 
+
+#define IScannerDisplay_Close(This)	\
+    ( (This)->lpVtbl -> Close(This) ) 
+
+#define IScannerDisplay_get_RefreshMode(This,pVal)	\
+    ( (This)->lpVtbl -> get_RefreshMode(This,pVal) ) 
+
+#define IScannerDisplay_put_RefreshMode(This,newVal)	\
+    ( (This)->lpVtbl -> put_RefreshMode(This,newVal) ) 
+
+#define IScannerDisplay_get_RefreshRate(This,pVal)	\
+    ( (This)->lpVtbl -> get_RefreshRate(This,pVal) ) 
+
+#define IScannerDisplay_put_RefreshRate(This,newVal)	\
+    ( (This)->lpVtbl -> put_RefreshRate(This,newVal) ) 
+
+#define IScannerDisplay_get_ImageObject(This,pVal)	\
+    ( (This)->lpVtbl -> get_ImageObject(This,pVal) ) 
+
+#define IScannerDisplay_get_DisplayScale(This,pVal)	\
+    ( (This)->lpVtbl -> get_DisplayScale(This,pVal) ) 
+
+#define IScannerDisplay_put_DisplayScale(This,newVal)	\
+    ( (This)->lpVtbl -> put_DisplayScale(This,newVal) ) 
+
+#define IScannerDisplay_Refresh(This)	\
+    ( (This)->lpVtbl -> Refresh(This) ) 
+
+#define IScannerDisplay_get_OrgPoint_X(This,pVal)	\
+    ( (This)->lpVtbl -> get_OrgPoint_X(This,pVal) ) 
+
+#define IScannerDisplay_put_OrgPoint_X(This,newVal)	\
+    ( (This)->lpVtbl -> put_OrgPoint_X(This,newVal) ) 
+
+#define IScannerDisplay_get_OrgPoint_Y(This,pVal)	\
+    ( (This)->lpVtbl -> get_OrgPoint_Y(This,pVal) ) 
+
+#define IScannerDisplay_put_OrgPoint_Y(This,newVal)	\
+    ( (This)->lpVtbl -> put_OrgPoint_Y(This,newVal) ) 
+
+#define IScannerDisplay_Load(This,FilePath)	\
+    ( (This)->lpVtbl -> Load(This,FilePath) ) 
+
+#define IScannerDisplay_Save(This,FilePath)	\
+    ( (This)->lpVtbl -> Save(This,FilePath) ) 
+
+#define IScannerDisplay_get_ObjectHandle(This,pVal)	\
+    ( (This)->lpVtbl -> get_ObjectHandle(This,pVal) ) 
+
+#define IScannerDisplay_RepaintDisplay(This)	\
+    ( (This)->lpVtbl -> RepaintDisplay(This) ) 
 
 #endif /* COBJMACROS */
 
@@ -857,6 +1624,202 @@ EXTERN_C const IID IID_IScanner;
     IScanner : public IUnknown
     {
     public:
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_DetectorObject( 
+            /* [retval][out] */ IUnknown **pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_DetectorObject( 
+            /* [in] */ IUnknown *newVal) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE OffBoardCalibration( 
+            /* [in] */ LONG CalibrationType,
+            /* [in] */ IUnknown *pImgObject,
+            /* [in] */ LONG StartPixel,
+            /* [in] */ LONG EndPixel,
+            /* [in] */ LONG TargetValue) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_Gain( 
+            /* [in] */ LONG Index,
+            /* [retval][out] */ FLOAT *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_Gain( 
+            /* [in] */ LONG Index,
+            /* [in] */ FLOAT newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_Offset( 
+            /* [in] */ LONG Index,
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_Offset( 
+            /* [in] */ LONG Index,
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_CorrectionGain( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_CorrectionGain( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_CorrectionOffset( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_CorrectionOffset( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_CorrectionBaseline( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_CorrectionBaseline( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_Baseline( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_Baseline( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_IntegrationTime( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_IntegrationTime( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_AverageFilter( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_AverageFilter( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_DataPattern( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_DataPattern( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_FrameTrigger( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_FrameTrigger( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_LineTrigger( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_LineTrigger( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE Initialize( 
+            /* [in] */ LONG Mode) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE SaveOffset( void) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE SaveGain( 
+            /* [in] */ LONG Index) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE LoadOffset( void) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE LoadGain( 
+            /* [in] */ LONG Index) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_OutputBits( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_OutputBits( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE SendExFrameTrigger( void) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_FrameOut( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_FrameOut( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_ImageOutputType( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_ImageOutputType( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_SensitivityLevel( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_SensitivityLevel( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_SumLines( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_SumLines( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE WriteDataPattern( 
+            /* [in] */ LONG Base,
+            /* [in] */ LONG Step) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_IsOpened( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_ModuleTypeName( 
+            /* [retval][out] */ BSTR *pVal) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE SaveCurrentStatus( void) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_PixelSize( 
+            /* [retval][out] */ FLOAT *pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_PixelNumber( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_ModuleType( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_MaxIntTime( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_MinIntTime( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_OverallGain( 
+            /* [retval][out] */ FLOAT *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_OverallGain( 
+            /* [in] */ FLOAT newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_StartPixel( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_StartPixel( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_EndPixel( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_EndPixel( 
+            /* [in] */ LONG newVal) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE OnBoardOffsetCalibration( void) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE OnBoardGainCalibration( 
+            /* [in] */ LONG TargetValue) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE ResetGain( void) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE ResetOffset( void) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_FPGA_Version( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_FPGA_Build( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_MCU_Version( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_SerialNumber( 
+            /* [retval][out] */ BSTR *pVal) = 0;
+        
+        virtual /* [helpstring] */ HRESULT STDMETHODCALLTYPE RetrieveSysinfo( void) = 0;
+        
     };
     
 #else 	/* C style interface */
@@ -875,6 +1838,267 @@ EXTERN_C const IID IID_IScanner;
             IScanner * This);
         
         ULONG ( STDMETHODCALLTYPE *Release )( 
+            IScanner * This);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_DetectorObject )( 
+            IScanner * This,
+            /* [retval][out] */ IUnknown **pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_DetectorObject )( 
+            IScanner * This,
+            /* [in] */ IUnknown *newVal);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *OffBoardCalibration )( 
+            IScanner * This,
+            /* [in] */ LONG CalibrationType,
+            /* [in] */ IUnknown *pImgObject,
+            /* [in] */ LONG StartPixel,
+            /* [in] */ LONG EndPixel,
+            /* [in] */ LONG TargetValue);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Gain )( 
+            IScanner * This,
+            /* [in] */ LONG Index,
+            /* [retval][out] */ FLOAT *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Gain )( 
+            IScanner * This,
+            /* [in] */ LONG Index,
+            /* [in] */ FLOAT newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Offset )( 
+            IScanner * This,
+            /* [in] */ LONG Index,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Offset )( 
+            IScanner * This,
+            /* [in] */ LONG Index,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_CorrectionGain )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_CorrectionGain )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_CorrectionOffset )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_CorrectionOffset )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_CorrectionBaseline )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_CorrectionBaseline )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Baseline )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Baseline )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_IntegrationTime )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_IntegrationTime )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_AverageFilter )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_AverageFilter )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_DataPattern )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_DataPattern )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_FrameTrigger )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_FrameTrigger )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_LineTrigger )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_LineTrigger )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *Initialize )( 
+            IScanner * This,
+            /* [in] */ LONG Mode);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *SaveOffset )( 
+            IScanner * This);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *SaveGain )( 
+            IScanner * This,
+            /* [in] */ LONG Index);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *LoadOffset )( 
+            IScanner * This);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *LoadGain )( 
+            IScanner * This,
+            /* [in] */ LONG Index);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_OutputBits )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_OutputBits )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *SendExFrameTrigger )( 
+            IScanner * This);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_FrameOut )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_FrameOut )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ImageOutputType )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_ImageOutputType )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_SensitivityLevel )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_SensitivityLevel )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_SumLines )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_SumLines )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *WriteDataPattern )( 
+            IScanner * This,
+            /* [in] */ LONG Base,
+            /* [in] */ LONG Step);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_IsOpened )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ModuleTypeName )( 
+            IScanner * This,
+            /* [retval][out] */ BSTR *pVal);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *SaveCurrentStatus )( 
+            IScanner * This);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_PixelSize )( 
+            IScanner * This,
+            /* [retval][out] */ FLOAT *pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_PixelNumber )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ModuleType )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_MaxIntTime )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_MinIntTime )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_OverallGain )( 
+            IScanner * This,
+            /* [retval][out] */ FLOAT *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_OverallGain )( 
+            IScanner * This,
+            /* [in] */ FLOAT newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_StartPixel )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_StartPixel )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_EndPixel )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_EndPixel )( 
+            IScanner * This,
+            /* [in] */ LONG newVal);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *OnBoardOffsetCalibration )( 
+            IScanner * This);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *OnBoardGainCalibration )( 
+            IScanner * This,
+            /* [in] */ LONG TargetValue);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *ResetGain )( 
+            IScanner * This);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *ResetOffset )( 
+            IScanner * This);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_FPGA_Version )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_FPGA_Build )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_MCU_Version )( 
+            IScanner * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_SerialNumber )( 
+            IScanner * This,
+            /* [retval][out] */ BSTR *pVal);
+        
+        /* [helpstring] */ HRESULT ( STDMETHODCALLTYPE *RetrieveSysinfo )( 
             IScanner * This);
         
         END_INTERFACE
@@ -899,6 +2123,201 @@ EXTERN_C const IID IID_IScanner;
 #define IScanner_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
+
+#define IScanner_get_DetectorObject(This,pVal)	\
+    ( (This)->lpVtbl -> get_DetectorObject(This,pVal) ) 
+
+#define IScanner_put_DetectorObject(This,newVal)	\
+    ( (This)->lpVtbl -> put_DetectorObject(This,newVal) ) 
+
+#define IScanner_OffBoardCalibration(This,CalibrationType,pImgObject,StartPixel,EndPixel,TargetValue)	\
+    ( (This)->lpVtbl -> OffBoardCalibration(This,CalibrationType,pImgObject,StartPixel,EndPixel,TargetValue) ) 
+
+#define IScanner_get_Gain(This,Index,pVal)	\
+    ( (This)->lpVtbl -> get_Gain(This,Index,pVal) ) 
+
+#define IScanner_put_Gain(This,Index,newVal)	\
+    ( (This)->lpVtbl -> put_Gain(This,Index,newVal) ) 
+
+#define IScanner_get_Offset(This,Index,pVal)	\
+    ( (This)->lpVtbl -> get_Offset(This,Index,pVal) ) 
+
+#define IScanner_put_Offset(This,Index,newVal)	\
+    ( (This)->lpVtbl -> put_Offset(This,Index,newVal) ) 
+
+#define IScanner_get_CorrectionGain(This,pVal)	\
+    ( (This)->lpVtbl -> get_CorrectionGain(This,pVal) ) 
+
+#define IScanner_put_CorrectionGain(This,newVal)	\
+    ( (This)->lpVtbl -> put_CorrectionGain(This,newVal) ) 
+
+#define IScanner_get_CorrectionOffset(This,pVal)	\
+    ( (This)->lpVtbl -> get_CorrectionOffset(This,pVal) ) 
+
+#define IScanner_put_CorrectionOffset(This,newVal)	\
+    ( (This)->lpVtbl -> put_CorrectionOffset(This,newVal) ) 
+
+#define IScanner_get_CorrectionBaseline(This,pVal)	\
+    ( (This)->lpVtbl -> get_CorrectionBaseline(This,pVal) ) 
+
+#define IScanner_put_CorrectionBaseline(This,newVal)	\
+    ( (This)->lpVtbl -> put_CorrectionBaseline(This,newVal) ) 
+
+#define IScanner_get_Baseline(This,pVal)	\
+    ( (This)->lpVtbl -> get_Baseline(This,pVal) ) 
+
+#define IScanner_put_Baseline(This,newVal)	\
+    ( (This)->lpVtbl -> put_Baseline(This,newVal) ) 
+
+#define IScanner_get_IntegrationTime(This,pVal)	\
+    ( (This)->lpVtbl -> get_IntegrationTime(This,pVal) ) 
+
+#define IScanner_put_IntegrationTime(This,newVal)	\
+    ( (This)->lpVtbl -> put_IntegrationTime(This,newVal) ) 
+
+#define IScanner_get_AverageFilter(This,pVal)	\
+    ( (This)->lpVtbl -> get_AverageFilter(This,pVal) ) 
+
+#define IScanner_put_AverageFilter(This,newVal)	\
+    ( (This)->lpVtbl -> put_AverageFilter(This,newVal) ) 
+
+#define IScanner_get_DataPattern(This,pVal)	\
+    ( (This)->lpVtbl -> get_DataPattern(This,pVal) ) 
+
+#define IScanner_put_DataPattern(This,newVal)	\
+    ( (This)->lpVtbl -> put_DataPattern(This,newVal) ) 
+
+#define IScanner_get_FrameTrigger(This,pVal)	\
+    ( (This)->lpVtbl -> get_FrameTrigger(This,pVal) ) 
+
+#define IScanner_put_FrameTrigger(This,newVal)	\
+    ( (This)->lpVtbl -> put_FrameTrigger(This,newVal) ) 
+
+#define IScanner_get_LineTrigger(This,pVal)	\
+    ( (This)->lpVtbl -> get_LineTrigger(This,pVal) ) 
+
+#define IScanner_put_LineTrigger(This,newVal)	\
+    ( (This)->lpVtbl -> put_LineTrigger(This,newVal) ) 
+
+#define IScanner_Initialize(This,Mode)	\
+    ( (This)->lpVtbl -> Initialize(This,Mode) ) 
+
+#define IScanner_SaveOffset(This)	\
+    ( (This)->lpVtbl -> SaveOffset(This) ) 
+
+#define IScanner_SaveGain(This,Index)	\
+    ( (This)->lpVtbl -> SaveGain(This,Index) ) 
+
+#define IScanner_LoadOffset(This)	\
+    ( (This)->lpVtbl -> LoadOffset(This) ) 
+
+#define IScanner_LoadGain(This,Index)	\
+    ( (This)->lpVtbl -> LoadGain(This,Index) ) 
+
+#define IScanner_get_OutputBits(This,pVal)	\
+    ( (This)->lpVtbl -> get_OutputBits(This,pVal) ) 
+
+#define IScanner_put_OutputBits(This,newVal)	\
+    ( (This)->lpVtbl -> put_OutputBits(This,newVal) ) 
+
+#define IScanner_SendExFrameTrigger(This)	\
+    ( (This)->lpVtbl -> SendExFrameTrigger(This) ) 
+
+#define IScanner_get_FrameOut(This,pVal)	\
+    ( (This)->lpVtbl -> get_FrameOut(This,pVal) ) 
+
+#define IScanner_put_FrameOut(This,newVal)	\
+    ( (This)->lpVtbl -> put_FrameOut(This,newVal) ) 
+
+#define IScanner_get_ImageOutputType(This,pVal)	\
+    ( (This)->lpVtbl -> get_ImageOutputType(This,pVal) ) 
+
+#define IScanner_put_ImageOutputType(This,newVal)	\
+    ( (This)->lpVtbl -> put_ImageOutputType(This,newVal) ) 
+
+#define IScanner_get_SensitivityLevel(This,pVal)	\
+    ( (This)->lpVtbl -> get_SensitivityLevel(This,pVal) ) 
+
+#define IScanner_put_SensitivityLevel(This,newVal)	\
+    ( (This)->lpVtbl -> put_SensitivityLevel(This,newVal) ) 
+
+#define IScanner_get_SumLines(This,pVal)	\
+    ( (This)->lpVtbl -> get_SumLines(This,pVal) ) 
+
+#define IScanner_put_SumLines(This,newVal)	\
+    ( (This)->lpVtbl -> put_SumLines(This,newVal) ) 
+
+#define IScanner_WriteDataPattern(This,Base,Step)	\
+    ( (This)->lpVtbl -> WriteDataPattern(This,Base,Step) ) 
+
+#define IScanner_get_IsOpened(This,pVal)	\
+    ( (This)->lpVtbl -> get_IsOpened(This,pVal) ) 
+
+#define IScanner_get_ModuleTypeName(This,pVal)	\
+    ( (This)->lpVtbl -> get_ModuleTypeName(This,pVal) ) 
+
+#define IScanner_SaveCurrentStatus(This)	\
+    ( (This)->lpVtbl -> SaveCurrentStatus(This) ) 
+
+#define IScanner_get_PixelSize(This,pVal)	\
+    ( (This)->lpVtbl -> get_PixelSize(This,pVal) ) 
+
+#define IScanner_get_PixelNumber(This,pVal)	\
+    ( (This)->lpVtbl -> get_PixelNumber(This,pVal) ) 
+
+#define IScanner_get_ModuleType(This,pVal)	\
+    ( (This)->lpVtbl -> get_ModuleType(This,pVal) ) 
+
+#define IScanner_get_MaxIntTime(This,pVal)	\
+    ( (This)->lpVtbl -> get_MaxIntTime(This,pVal) ) 
+
+#define IScanner_get_MinIntTime(This,pVal)	\
+    ( (This)->lpVtbl -> get_MinIntTime(This,pVal) ) 
+
+#define IScanner_get_OverallGain(This,pVal)	\
+    ( (This)->lpVtbl -> get_OverallGain(This,pVal) ) 
+
+#define IScanner_put_OverallGain(This,newVal)	\
+    ( (This)->lpVtbl -> put_OverallGain(This,newVal) ) 
+
+#define IScanner_get_StartPixel(This,pVal)	\
+    ( (This)->lpVtbl -> get_StartPixel(This,pVal) ) 
+
+#define IScanner_put_StartPixel(This,newVal)	\
+    ( (This)->lpVtbl -> put_StartPixel(This,newVal) ) 
+
+#define IScanner_get_EndPixel(This,pVal)	\
+    ( (This)->lpVtbl -> get_EndPixel(This,pVal) ) 
+
+#define IScanner_put_EndPixel(This,newVal)	\
+    ( (This)->lpVtbl -> put_EndPixel(This,newVal) ) 
+
+#define IScanner_OnBoardOffsetCalibration(This)	\
+    ( (This)->lpVtbl -> OnBoardOffsetCalibration(This) ) 
+
+#define IScanner_OnBoardGainCalibration(This,TargetValue)	\
+    ( (This)->lpVtbl -> OnBoardGainCalibration(This,TargetValue) ) 
+
+#define IScanner_ResetGain(This)	\
+    ( (This)->lpVtbl -> ResetGain(This) ) 
+
+#define IScanner_ResetOffset(This)	\
+    ( (This)->lpVtbl -> ResetOffset(This) ) 
+
+#define IScanner_get_FPGA_Version(This,pVal)	\
+    ( (This)->lpVtbl -> get_FPGA_Version(This,pVal) ) 
+
+#define IScanner_get_FPGA_Build(This,pVal)	\
+    ( (This)->lpVtbl -> get_FPGA_Build(This,pVal) ) 
+
+#define IScanner_get_MCU_Version(This,pVal)	\
+    ( (This)->lpVtbl -> get_MCU_Version(This,pVal) ) 
+
+#define IScanner_get_SerialNumber(This,pVal)	\
+    ( (This)->lpVtbl -> get_SerialNumber(This,pVal) ) 
+
+#define IScanner_RetrieveSysinfo(This)	\
+    ( (This)->lpVtbl -> RetrieveSysinfo(This) ) 
 
 #endif /* COBJMACROS */
 

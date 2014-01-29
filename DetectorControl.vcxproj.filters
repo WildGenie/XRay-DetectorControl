@@ -58,6 +58,51 @@
     <ClCompile Include="src\TCPSocket.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\DataPacket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ScannerDataSrcFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ScannerDataSrcIF.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataPacketFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataPacketQueue.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataPacketQueueFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataPacketQueueIF.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DIBImage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventManagerIF.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FrameBuf.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FrameBufFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FrameBufIF.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IFrameEventSink.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NETDataSrc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ScannerException.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -109,6 +154,51 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\TCPSocket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataPacket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ScannerDataSrcFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ScannerDataSrcIF.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataPacketFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataPacketQueue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataPacketQueueFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DataPacketQueueIF.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DIBImage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventManagerIF.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FrameBuf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FrameBufFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FrameBufIF.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IFrameEventSink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NETDataSrc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ScannerException.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

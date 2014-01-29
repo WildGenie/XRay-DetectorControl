@@ -1,6 +1,6 @@
-#include "StdAfx.h"
-#include ".\dtppacketfactory.h"
-CDTPPacketFactory::CDTPPacketFactory(void)
+#include ".\datapacketfactory.h"
+
+CDataPacketFactory::CDataPacketFactory(void)
 {
 	for(int i = 0;i<MAX_PACKET_NUM;i++)
 	{
@@ -8,16 +8,16 @@ CDTPPacketFactory::CDTPPacketFactory(void)
 	}
 }
 
-CDTPPacketFactory::~CDTPPacketFactory(void)
+CDataPacketFactory::~CDataPacketFactory(void)
 {
 		// Dump the list elements to the debug window.
 	ReleaseAllPacket();
 }
-void CDTPPacketFactory::ReleaseAllPacket(void)
+void CDataPacketFactory::ReleaseAllPacket(void)
 {
 	for(int i = 0;i<MAX_PACKET_NUM;i++)
 	{
-		CDTPPacketIF* pPacket = m_PacketArray[i];
+		CDataPacketIF* pPacket = m_PacketArray[i];
 		if(pPacket)
 		{
 			delete pPacket;
@@ -28,20 +28,21 @@ void CDTPPacketFactory::ReleaseAllPacket(void)
 		m_PacketArray[i] = 0;
 	}
 }
-CDTPPacketIF* CDTPPacketFactory::GetNewDTPPacketList(BYTE PacketType, DWORD PacketBufSize, WORD PacketNum)//Return a list of packet with the size buffer
+
+CDataPacketIF* CDataPacketFactory::GetNewDataPacketList(DWORD PacketBufSize, WORD PacketNum)//Return a list of packet with the size buffer
 {
 	ReleaseAllPacket();
-	CDTPPacketIF* pHead=NULL;
+    CDataPacketIF* pHead=NULL;
 	if(PacketNum > MAX_PACKET_NUM)
 	{
 		PacketNum = MAX_PACKET_NUM;
 	}
-	if(DT_USB == PacketType)
-	{
-		CDTPPacketIF* pPacket = NULL;
+
+
+        CDataPacketIF* pPacket = NULL;
 		for(int i=0;i<PacketNum;i++)
 		{
-			pPacket = new CDTPUSBPacket(PacketBufSize);
+			pPacket = new CDataPacket(PacketBufSize);
 			m_PacketArray[i] = pPacket;
 		}
 
@@ -53,15 +54,16 @@ CDTPPacketIF* CDTPPacketFactory::GetNewDTPPacketList(BYTE PacketType, DWORD Pack
 		pPacket = m_PacketArray[PacketNum-1];
 		pPacket->SetNext(NULL);
 		pHead = m_PacketArray[0];
-	}
+
 	return pHead;
 }
-void CDTPPacketFactory::ClearAllPacket()
+
+void CDataPacketFactory::ClearAllPacket()
 {
-	CDTPPacketIF* pPacket;
+    CDataPacketIF* pPacket;
 	for(int i = 0;i<MAX_PACKET_NUM;i++)
 	{
-		 pPacket = m_PacketArray[i];
+        pPacket = m_PacketArray[i];
 		if(pPacket)
 			pPacket->Clear();
 	}

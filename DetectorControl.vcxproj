@@ -18,8 +18,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <UseOfAtl>Dynamic</UseOfAtl>
+    <UseOfAtl>Static</UseOfAtl>
     <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -132,16 +134,61 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="FrameObject.cpp" />
-    <ClCompile Include="Scanner.cpp" />
-    <ClCompile Include="ScannerDisplay.cpp" />
-    <ClCompile Include="ScannerImage.cpp" />
+    <ClCompile Include="Scanner.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ScannerDisplay.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ScannerImage.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\CommandChannelPrv.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\DataPacket.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\DataPacketFactory.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\DataPacketQueue.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\DataPacketQueueFactory.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\DataPacketQueueIF.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\DIBImage.cpp" />
+    <ClCompile Include="src\EventManagerIF.cpp" />
+    <ClCompile Include="src\FrameBuf.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\FrameBufFactory.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\FrameBufIF.cpp" />
     <ClCompile Include="src\FrameObjectPrv.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\IFrameEventSink.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\NETDataSrc.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\pixelorderconverter.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\ScannerDataSrcFactory.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\ScannerDataSrcIF.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\ScannerException.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\TCPSocket.cpp">
@@ -162,9 +209,24 @@
     <ClInclude Include="ScannerDisplay.h" />
     <ClInclude Include="ScannerImage.h" />
     <ClInclude Include="src\CommandChannelPrv.h" />
+    <ClInclude Include="src\DataPacket.h" />
+    <ClInclude Include="src\DataPacketFactory.h" />
+    <ClInclude Include="src\DataPacketQueue.h" />
+    <ClInclude Include="src\DataPacketQueueFactory.h" />
+    <ClInclude Include="src\DataPacketQueueIF.h" />
+    <ClInclude Include="src\DIBImage.h" />
+    <ClInclude Include="src\EventManagerIF.h" />
+    <ClInclude Include="src\FrameBuf.h" />
+    <ClInclude Include="src\FrameBufFactory.h" />
+    <ClInclude Include="src\FrameBufIF.h" />
     <ClInclude Include="src\FrameObjectPrv.h" />
+    <ClInclude Include="src\IFrameEventSink.h" />
     <ClInclude Include="src\LibConst.h" />
+    <ClInclude Include="src\NETDataSrc.h" />
     <ClInclude Include="src\pixelorderconverter.h" />
+    <ClInclude Include="src\ScannerDataSrcFactory.h" />
+    <ClInclude Include="src\ScannerDataSrcIF.h" />
+    <ClInclude Include="src\ScannerException.h" />
     <ClInclude Include="src\TCPSocket.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

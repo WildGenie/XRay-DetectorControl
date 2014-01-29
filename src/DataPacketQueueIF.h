@@ -1,21 +1,21 @@
 #pragma once
-#include "DTPPacket.h"
-#include "DTDataSrcIF.h"
+#include "DataPacket.h"
+#include "ScannerDataSrcIF.h"
 #include "EventManagerIF.h "
-#include "DTFrameBufIF.h"
-class CDTPQueueIF
+#include "FrameBufIF.h"
+class CDataPacketQueueIF
 {
 public:
-	CDTPQueueIF(void);
-	virtual ~CDTPQueueIF(void);
+    CDataPacketQueueIF(void);
+    virtual ~CDataPacketQueueIF(void);
 	// Called when a Datasrc packet ready, add the packet to the end of queue and check is there any finnished packet
-	virtual void AddTail(CDTPPacketIF* pDTPacket) = 0;
+    virtual void AddTail(CDataPacketIF* pPacket) = 0;
 	// Set the data source to input data
-	virtual void SetDataSrc(CDTDataSrcIF* pDataSrc)=0;
-	//Set evenmanager to accept DTEvent
+    virtual void SetScannerDataSrc(CScannerDataSrcIF* pDataSrc)=0;
+	//Set evenmanager to accept Event
 	virtual void SetEventManager(CEventManagerIF *pEventManager)=0;
 	//Set Frame buf to output the Frame data
-	virtual void SetFrameBuf(CDTFrameBufIF* pFrameBuf)=0;
+	virtual void SetFrameBuf(CFrameBufIF* pFrameBuf)=0;
 	virtual void ClearQueue()=0;
 	virtual void ResetImageCounter()=0;
 	virtual void Start() = 0;

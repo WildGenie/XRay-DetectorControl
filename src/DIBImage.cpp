@@ -105,7 +105,7 @@ BOOL CDIBImage::Load(LPSTR pPath)
 {
 	Close();
 	CImage img;
-	img.Load(pPath);
+	img.Load((LPCTSTR)pPath);
 	void* pData = img.GetBits();
 	m_Width= img.GetWidth();
 	m_Height = img.GetHeight();

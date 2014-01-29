@@ -1,7 +1,8 @@
-#include "StdAfx.h"
-#include ".\dtexception.h"
-#include "DTConst.h"
-CDTException::CDTException(int ID)
+#include "../StdAfx.h"
+#include "./scannerexception.h"
+#include "LibConst.h"
+
+CScannerException::CScannerException(int ID)
 {
 	m_ERROR_ID = ID;
 	CComBSTR bstrRT;
@@ -73,22 +74,22 @@ CDTException::CDTException(int ID)
 	case EID_PACKET_LEN_ERROR:
 		bstrRT = "DTP packet length error";
 		break;
-	case EID_DTP_PACKET_NONE:
+	case EID_PACKET_NONE:
 		bstrRT = "None DTP packet ";
 		break;
 	default:
-			bstrRT = "ErrorHappen";
+		bstrRT = "ErrorHappen";
 	}
 
 	bstrRT.CopyTo(&m_ERROR_INFO);
 }
 
-CDTException::~CDTException(void)
+CScannerException::~CScannerException(void)
 {
 }
-void CDTException::ProcessError()
+void CScannerException::ProcessError()
 {
 }
-void CDTException::PrintErrInfo()
+void CScannerException::PrintErrInfo()
 {
 };

@@ -1,15 +1,15 @@
-#include "StdAfx.h"
+#define _CRT_SECURE_NO_DEPRECATE
 #include ".\netdatasrc.h"
-#include "DTPQueueIF.h"
-#include "DTConst.h"
-#include "DTException.h"
+#include "DataPacketQueueIF.h"
+#include "LIBConst.h"
+#include "ScannerException.h"
 #include <process.h>
 
 
-CNETDataSrc::CNETDataSrc(IDTDetector* pDetector)
+CNETDataSrc::CNETDataSrc(ICommandChannel* pDetector)
 :	
 	m_pPacketListHead(NULL),
-	m_pDTPQueue(NULL),
+    m_pDataPacketQueue(NULL),
 	m_hThread(NULL),
 	m_ThreadID(0),
 	m_pCommitPacketHead(NULL)
@@ -67,7 +67,7 @@ void CNETDataSrc::Close(void)
 	Stop();
 	m_Socket.DisConnect();
 }
-BOOL CNETDataSrc::Start()//Start Grab Thread called by DTImage, return  FALSE Failed to start
+BOOL CNETDataSrc::Start()//Start Grab Thread called by ScannerImage, return  FALSE Failed to start
 {
 	if(IsRunning())
 	{
@@ -76,7 +76,7 @@ BOOL CNETDataSrc::Start()//Start Grab Thread called by DTImage, return  FALSE Fa
 	ResetEventObject();
 	m_hThread = (HANDLE)_beginthreadex(NULL,0,(PBEGINTHREADEX_THREADFUNC)CNETDataSrc::ThreadFunc,(LPVOID)this,0,(PBEGINTHREADEX_THREADID)&m_ThreadID);
 	SetThreadPriority(m_hThread ,THREAD_PRIORITY_TIME_CRITICAL );
-	m_pDTPQueue->ResetImageCounter();//Clear the start image couter used to check is there lost frame
+	m_pDataPacketQueue->ResetImageCounter();//Clear the start image couter used to check is there lost frame
 	Sleep(1);//Wait a moment let m_Thread run to avoid the data lost
 
 	if(m_hThread)
@@ -106,12 +106,14 @@ BOOL CNETDataSrc::Stop()//StopGrab called by dtimage return FALSE TIme Out
 	//Always return TRUE
 	return TRUE;
 }
-void CNETDataSrc::AddDTPPacket(CDTPPacketIF* pPacket)//Inser the single packet to the wait queue called by DTImage to create a wait queue
+
+//Inser the single packet to the wait queue called by ScannerImage to create a wait queue
+void CNETDataSrc::AddDataPacket(CDataPacketIF* pPacket)
 {
 	EnterCriticalSection(&m_ListHeadCR);
 	pPacket->Reset();//Clear the content and set the next as null;
 //	ATLTRACE("Add %p Packet\n",pPacket);
-	CDTPPacketIF* pLast = m_pPacketListHead;
+    CDataPacketIF* pLast = m_pPacketListHead;
 	if(m_pPacketListHead)
 	{
 		while((pLast->GetNext()) != NULL)
@@ -123,16 +125,18 @@ void CNETDataSrc::AddDTPPacket(CDTPPacketIF* pPacket)//Inser the single packet t
 	}
 	else
 	{
-		m_pPacketListHead = (CDTPUSBPacket*)pPacket;
+        m_pPacketListHead = (CDataPacket*)pPacket;
 	//	ATLTRACE("ADD FREE Packet and Set Event\n");
 	}
 	SetEvent(m_hFreePacketReady);
 	LeaveCriticalSection(&m_ListHeadCR);
 }
-void CNETDataSrc::AddDTPPacketList(CDTPPacketIF* pHead)//Inser the packet list to the wait queue called by DTImage to create a wait queue
+
+//Inser the packet list to the wait queue called by ScannerImage to create a wait queue
+void CNETDataSrc::AddDataPacketList(CDataPacketIF* pHead)
 {
 	EnterCriticalSection(&m_ListHeadCR);
-	CDTPPacketIF* pLast = m_pPacketListHead;
+    CDataPacketIF* pLast = m_pPacketListHead;
 	if(m_pPacketListHead)
 	{
 		while((pLast->GetNext()) != NULL)
@@ -143,18 +147,19 @@ void CNETDataSrc::AddDTPPacketList(CDTPPacketIF* pHead)//Inser the packet list t
 	}
 	else
 	{
-		m_pPacketListHead = (CDTPUSBPacket*)pHead;
+        m_pPacketListHead = (CDataPacket*)pHead;
 	}
 	LeaveCriticalSection(&m_ListHeadCR);
 	SetEvent(m_hFreePacketReady);
 }
 
-	//and DTPQueue to return the used packet to the wait queue
-	//Create Need the DTPQueuePointer,to accept the DTP Packet
-void CNETDataSrc::SetDTPQueue(CDTPQueueIF* pQueue)
+	//and Queue to return the used packet to the wait queue
+	//Create Need the QueuePointer,to accept the  Packet
+void CNETDataSrc::SetDataPacketQueue(CDataPacketQueueIF* pQueue)
 {
-	m_pDTPQueue = pQueue;
+    m_pDataPacketQueue = pQueue;
 }
+
 BOOL CNETDataSrc::IsRunning()
 {
 	if(WaitForSingleObject(m_hThreadEndEvent,0) == WAIT_TIMEOUT)
@@ -166,21 +171,24 @@ BOOL CNETDataSrc::IsRunning()
 		return FALSE;
 	}
 }
+
 void CNETDataSrc::SetStopFlag(BOOL bTrue)//becalled by thread to stop itself, asynchronize stop
 {
 	m_bThreadStop = bTrue;
 	//SendSFCommand(FALSE);//Stop FPGA data output
 }
+
 BOOL CNETDataSrc::GetStopFlag()//Get stop flag
 {
 		return m_bThreadStop;
 }
+
 void CNETDataSrc::ResetQueue()//Clear Packet Content in the Queue
 {
 	EnterCriticalSection(&m_ListHeadCR);
 	if(m_pCommitPacketHead)
 		m_pPacketListHead = m_pCommitPacketHead;
-	CDTPPacketIF* pPacket = m_pPacketListHead;
+    CDataPacketIF* pPacket = m_pPacketListHead;
 	while(pPacket)
 	{
 		pPacket->Clear();
@@ -270,8 +278,8 @@ DWORD CNETDataSrc::ThreadMemberFunc()
 	m_bThreadStop = FALSE;
 	ATLTRACE("Reset NetSrc m_hThreadEndEvent\n");
 	ResetEvent(m_hThreadEndEvent);
-	m_pDTPQueue->Start();//Start the DTP Queue Check Thread
-	Sleep(1);//Give DTPQueue thread a change to run
+    m_pDataPacketQueue->Start();//Start the Data Queue Check Thread
+    Sleep(1);//Give DataQueue thread a change to run
 	m_pCommitPacketHead = m_pPacketListHead;
 	
 	//Use the Commit head to point to the first commit packet
@@ -305,26 +313,26 @@ DWORD CNETDataSrc::ThreadMemberFunc()
 				ErrID = WSAGetLastError();
 				if(ErrID  == WSAETIMEDOUT)
 					continue;
-				throw CDTException(EID_NET_IMG_REV_FAILED);
+                throw CScannerException(EID_NET_IMG_REV_FAILED);
 			}
 			else if(Len == 0)
 			{
-				throw CDTException(EID_NET_IMG_REV_FAILED);
+                throw CScannerException(EID_NET_IMG_REV_FAILED);
 			}
 					//Set the Data Len
 				//	ATLTRACE("FINISH Transfer\n");recv
 			else if(Len>0)
 			{
 					m_pCommitPacketHead->SetDataSize(Len);
-					//Move to DTPQueue
-					CDTPPacketIF* pCommitPacket = m_pCommitPacketHead;
+                    //Move to DataQueue
+                    CDataPacketIF* pCommitPacket = m_pCommitPacketHead;
 					EnterCriticalSection(&m_ListHeadCR);
 					m_pCommitPacketHead = m_pCommitPacketHead->GetNext();
 					LeaveCriticalSection(&m_ListHeadCR);
 					if(m_pCommitPacketHead	== NULL)
-							throw CDTException(EID_DTP_REVQUEUE_EMPTY);
+                            throw CScannerException(EID_REVQUEUE_EMPTY);
 			//		ATLTRACE("Tail Bigin\n");
-					m_pDTPQueue->AddTail(pCommitPacket);
+                    m_pDataPacketQueue->AddTail(pCommitPacket);
 			//		ATLTRACE("Tail ENd\n");
 					//commit head = head.next
 			}
@@ -332,7 +340,7 @@ DWORD CNETDataSrc::ThreadMemberFunc()
 			EnterCriticalSection(&m_ListHeadCR);
 			if(NULL == m_pPacketListHead->GetNext())
 			{	//Wait for NextAvalible Packet insert. 
-				//The DTPQueue thread should return the free packet to the DataSrc Queue
+                //The DataQueue thread should return the free packet to the DataSrc Queue
 				ResetEvent(m_hFreePacketReady);
 				LeaveCriticalSection(&m_ListHeadCR);//Here the Judgement of ResetEvent Should be in CriticalSection 
 	//			ATLTRACE("net src No Free Packet\n");
@@ -342,7 +350,7 @@ DWORD CNETDataSrc::ThreadMemberFunc()
 				}
 				else
 				{
-						throw CDTException(EID_DTP_PACKET_NONE);
+                        throw CScannerException(EID_PACKET_NONE);
 				}
 			}
 			else
@@ -353,38 +361,39 @@ DWORD CNETDataSrc::ThreadMemberFunc()
 			//At this Point the GetNext Should Not Be NULL
 		//		ATLTRACE("BEGIN Transfer\n");
 				//Here before update the PacketListHead , need enter critical section, the
-				//PacketListHead is shared by this therad and DTPQueue Thread
+                //PacketListHead is shared by this therad and DataPQueue Thread
 				EnterCriticalSection(&m_ListHeadCR);
 				//ATLASSERT(m_pPacketListHead->GetNext() != NULL);
-		//		int l = m_pPacketListHead->GetDTPLen();
+        //		int l = m_pPacketListHead->GetDataPLen();
 		//		ATLTRACE("m_pPacketListHead is %p packet \n",m_pPacketListHead);
 				m_pPacketListHead = m_pPacketListHead->GetNext();
 				m_pPacketListHead->GetNext();
 				LeaveCriticalSection(&m_ListHeadCR);
 		}//end while
 	}//end try
-	catch (CDTException E)
+    catch (CScannerException E)
 	{
 		SendSFCommand(FALSE);
 		ClearSocketBuffer();
 		E.ProcessError();
-		//Zhangxq
-		//remove this line
-		//m_pParent->DTError(E.m_ERROR_ID,E.m_ERROR_INFO);
+
 	}
-	m_pDTPQueue->Stop();//Stop the DTPQueueThread
+    m_pDataPacketQueue->Stop();//Stop the DataPQueueThread
 	ATLTRACE("Set the NetSrc m_hThreadEndEvent Event\n");
     SetEvent(m_hThreadEndEvent);
 	return 0;
 }
+
 BOOL CNETDataSrc::ClearDetectorBuffer()
 {
 	return SendSFCommand(FALSE);
 }
+
 void CNETDataSrc::SetTimeOut(LONG timeout)
 {
 	m_TimeOut = timeout;
 }
+
 void CNETDataSrc::GetTimeOut(LONG* ptimeout)
 {
 	*ptimeout = m_TimeOut ;

@@ -1,31 +1,34 @@
 #pragma once
-#include "dtpqueueif.h"
+#include "./LibConst.h"
+#include "datapacketqueueif.h"
+#include "ScannerDataSrcIF.h"
 
-typedef unsigned * PBEGINTHREADEX_THREADID;
-typedef unsigned (WINAPI *PBEGINTHREADEX_THREADFUNC) (LPVOID lpThreadParameter);
-class CDTPQueue :
-	public CDTPQueueIF
+
+//typedef unsigned * PBEGINTHREADEX_THREADID;
+//typedef unsigned (WINAPI *PBEGINTHREADEX_THREADFUNC) (LPVOID lpThreadParameter);
+class CDataPacketQueue :
+    public CDataPacketQueueIF
 {
 private:
 	BYTE				m_ImageCounter;
-	BYTE				m_Header[DTP_HEAD_LEN];
+	BYTE				m_Header[PACKET_HEAD_LEN];
 	BYTE*				m_pBuffer;
 	ULONG				m_BufferSize;
-	CDTDataSrcIF*		m_pDataSrc;
+	CScannerDataSrcIF*		m_pDataSrc;
 	CEventManagerIF*	m_pEventManager;
-	CDTFrameBufIF*		m_pFrameBUF;
+    CFrameBufIF*		m_pFrameBUF;
 
 
-	CDTPPacketIF*			m_pHead;
-	CDTPPacketIF*			m_pTail;
+    CDataPacketIF*			m_pHead;
+    CDataPacketIF*			m_pTail;
 	LONG					m_QueueSize;
 	FILE*						m_hTraceFile;
 	CRITICAL_SECTION  m_TailCR;
 
-	enum{DT_IMG = 0x00,DT_CONTROL = 0x01,DT_DUMY = 0x02};
+	enum{IMG = 0x00,CONTROL = 0x01,DUMY = 0x02};
 private:
-	void CheckDTP();
-	ULONG GetCurDTPLen();
+    void CheckDataPacket();
+    ULONG GetCurDataPacketLen();
 	ULONG GetQueueSize();
 	BYTE GetCurType();
 	BYTE GetCurContent();	
@@ -36,16 +39,16 @@ private:
 	void ReleaseDataBuffer();
 	void CopyDataToBuffer();
 public:
-	CDTPQueue(int iEventNum=0);
-	virtual ~CDTPQueue(void);
+    CDataPacketQueue(int iEventNum=0);
+	virtual ~CDataPacketQueue(void);
 		// Called when a Datasrc packet ready, add the packet to the end of queue and check is there any finnished packet
-	void AddTail(CDTPPacketIF* pDTPacket);
-	// Set the data source to input data top returnt the used DTPacket
-	void SetDataSrc(CDTDataSrcIF* pDataSrc);
-	//Set evenmanager to accept DTEvent
+    void AddTail(CDataPacketIF* pPacket);
+	// Set the data source to input data top returnt the used DataPacket
+    void SetScannerDataSrc(CScannerDataSrcIF* pDataSrc);
+	//Set evenmanager to accept Event
 	void SetEventManager(CEventManagerIF *pEventManager);
 	//Set Frame buf to output the Frame data
-	void SetFrameBuf(CDTFrameBufIF* pFrameBuf);
+    void SetFrameBuf(CFrameBufIF* pFrameBuf);
 	void Start();
 	void Stop();
 	BOOL IsRunning();

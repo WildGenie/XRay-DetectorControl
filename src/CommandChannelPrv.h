@@ -24,7 +24,6 @@ public:
     long put_ChannelType(LONG newVal);
     long Open(LONG* bOK);
     long Close(void);
-    long SendCommand(BSTR bstrCmd, BSTR* bstrRTMsg, LONG* bOK);
     long get_CmdTimeOut(LONG* pVal);
     long put_CmdTimeOut(LONG newVal);
     long SendCommandA(CHAR* Cmd, CHAR* pRT,LONG* pbOK);
@@ -48,18 +47,10 @@ private:
 private:
     CTCPSocket			m_Socket;
     //Todo Refactory the channel to channel interface
-    //  Send
-    //  Recv
-    //	CCyUSBDevice		m_DTUSBDevice;
-    // CCyControlEndPoint  *m_pCtlEndPt;
 
-    // CSerial				m_Serial;
 
 private:
-//	BOOL SendUSBData(CHAR* pStrCmd);
-//	BOOL RevUSBData(CHAR* pStrRT);
-//	int	SendSerialData(CHAR* pStrCmd);
-//	int RevSerialData(CHAR* pRT,WORD BuffSize = REV_BUF_SIZE);
+
 	BOOL TestConnection() { return true;};
     int SendNETData(CHAR* pStrCmd);
     int RevNETData(CHAR* pRT,WORD BuffSize = 100);

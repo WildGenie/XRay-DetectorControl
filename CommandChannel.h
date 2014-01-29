@@ -61,6 +61,7 @@ public:
 	STDMETHOD(Open)(LONG* bOK);
 	STDMETHOD(Close)(void);
 	STDMETHOD(SendCommand)(BSTR bstrCmd, BSTR* bstrRTMsg, LONG* bOK);
+	STDMETHOD(SendCommandA)(CHAR* Cmd, CHAR* pRT,LONG* pbOK);
 	
 private:
 	CommandChannelPrv* m_pCommandChannelPrv;

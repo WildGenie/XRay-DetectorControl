@@ -1,10 +1,10 @@
-#include "StdAfx.h"
-#include ".\dtframebuf.h"
+ï»¿
+#include ".\framebuf.h"
 #include "EventmanagerIF.h"
-#include "ImageObject.h"
+#include "../FrameObject.h"
 
 
-CDTFrameBuf::CDTFrameBuf(void)
+CFrameBuf::CFrameBuf(void)
 : m_FrameWidth(0),
   m_FrameLength(0),
   m_BytesPerPixel(0),
@@ -26,26 +26,26 @@ CDTFrameBuf::CDTFrameBuf(void)
 
 }
 
-CDTFrameBuf::~CDTFrameBuf(void)
+CFrameBuf::~CFrameBuf(void)
 {
 	if(m_pRowAddr)
 		delete m_pRowAddr;
 	if(m_pData)
 		delete m_pData;
 }
-void CDTFrameBuf::Reset()//Reset the counter 
+void CFrameBuf::Reset()//Reset the counter 
 {
   m_CurFrameRowID = 0;
   m_CurSubFrameRowID = 0;
   m_CurRowID = 0;
 }
-void CDTFrameBuf::SetGrabFrameNum(unsigned int Num)//Setup hownay frame want to take
+void CFrameBuf::SetGrabFrameNum(unsigned int Num)//Setup hownay frame want to take
 {
 	//m_CurGrabFrameNum
 	m_CurGrabFrameNum = 0;//Reset the CurFrameNum
 	m_GrabFrameNumTotal = Num;
 }
-void CDTFrameBuf::AddOneFrameLine(BYTE* pSrc,unsigned int Size,BOOL bLineEnd)
+void CFrameBuf::AddOneFrameLine(BYTE* pSrc,unsigned int Size,BOOL bLineEnd)
 {//The addline maybe call serval time for one line data, if it is the last part
 	// of the line the blineend should be true
 	
@@ -90,11 +90,11 @@ void CDTFrameBuf::AddOneFrameLine(BYTE* pSrc,unsigned int Size,BOOL bLineEnd)
 		m_CurRowID++;
 		m_CurRowID %= m_TotalRowsNum;
 	//	ATLTRACE("One line ready \n");
-	//	ATLTRACE("The lineID¡¡is %d\n",(m_CurRowID%m_FrameLength));
+	//	ATLTRACE("The lineIDã€€is %d\n",(m_CurRowID%m_FrameLength));
 		if(0 == (m_CurRowID%m_SubFrameLength))
 		{
 				//Rise Event with the SubFrame ready
-			m_pEventManager->OnDTSubFrameReady(m_CurSubFrameRowID%m_FrameLength,m_SubFrameLength,FALSE);
+			m_pEventManager->OnSubFrameReady(m_CurSubFrameRowID%m_FrameLength,m_SubFrameLength,FALSE);
 			m_CurSubFrameRowID += m_SubFrameLength;
 			m_CurSubFrameRowID %= m_TotalRowsNum;
 			//ATLTRACE("One Sub Frame ready \n");
@@ -108,7 +108,7 @@ void CDTFrameBuf::AddOneFrameLine(BYTE* pSrc,unsigned int Size,BOOL bLineEnd)
 				//Rise the Event with the Frameready
 				ATLASSERT(m_pImageObject);
 				m_pImageObject->put_ImageDataAddress((LONG)m_pRowAddr[m_CurFrameRowID]);
-				m_pEventManager->OnDTFrameReady(m_pRowAddr[m_CurFrameRowID],m_RowSize*m_FrameLength);
+				m_pEventManager->OnFrameReady(m_pRowAddr[m_CurFrameRowID],m_RowSize*m_FrameLength);
 
 				//	ATLTRACE("On FrameReady ENd \n");
 				//Updata the FrameRowID and SubFrame RowID
@@ -121,7 +121,7 @@ void CDTFrameBuf::AddOneFrameLine(BYTE* pSrc,unsigned int Size,BOOL bLineEnd)
 		}
 	}
 }
-bool CDTFrameBuf::Create(CEventManagerIF* pEventManager,unsigned int FrameWidth, unsigned int FrameLength, unsigned int BytesPerPixel, unsigned int SubFrameNum, unsigned int FrameBufNum)
+bool CFrameBuf::Create(CEventManagerIF* pEventManager,unsigned int FrameWidth, unsigned int FrameLength, unsigned int BytesPerPixel, unsigned int SubFrameNum, unsigned int FrameBufNum)
 {
 	m_FrameWidth = FrameWidth;
   m_FrameLength = FrameLength;
@@ -152,28 +152,25 @@ bool CDTFrameBuf::Create(CEventManagerIF* pEventManager,unsigned int FrameWidth,
   {
 		m_pRowAddr[i] = m_pData + i*RowSize;
   }
-  /*
-  m_CurFrameRowID = 0;
-  m_CurSubFrameRowID = 0;
-  m_CurRowID = 0;*/
+  
   Reset();
   return TRUE;
   
 }
 
-unsigned int CDTFrameBuf::GetFrameWidth()
+unsigned int CFrameBuf::GetFrameWidth()
 {
 	return m_FrameWidth;
 }
-unsigned int CDTFrameBuf::GetFrameLength()
+unsigned int CFrameBuf::GetFrameLength()
 {
 	return m_FrameLength;
 }
-unsigned int CDTFrameBuf::GetBytesPerPixel()
+unsigned int CFrameBuf::GetBytesPerPixel()
 {
 	return m_BytesPerPixel;
 }
-void CDTFrameBuf::SetImageObject(IImageObject* pImageObject)
+void CFrameBuf::SetImageObject(IFrameObject* pImageObject)
 {
 	m_pImageObject = pImageObject;
 	if (m_pImageObject!=NULL)

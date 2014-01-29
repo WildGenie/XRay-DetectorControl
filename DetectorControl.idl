@@ -7,6 +7,15 @@
 #include "olectl.h"
 import "oaidl.idl";
 import "ocidl.idl";
+[
+	object,
+	uuid(FA6DA72C-D386-4F1A-A288-F7A821A6D13B),
+	pointer_default(unique)
+]
+interface IFrameReadyCallBack : IUnknown {
+	[id(1), helpstring("method FrameReady")] HRESULT FrameReady([in] LONG NumLines);
+	[id(2), helpstring("method SubFrameReady")] HRESULT SubFrameReady([in] LONG NumOfBlockLeft, [in] LONG StartLine, [in] LONG NumLines, [in] LONG bLastBlock);
+}
 
 [
 	object,
@@ -28,6 +37,7 @@ interface ICommandChannel : IUnknown{
 	[, helpstring("method Open")] HRESULT Open([out,retval] LONG* bOK);
 	[, helpstring("method Close")] HRESULT Close(void);
 	[, helpstring("method SendCommand")] HRESULT SendCommand(BSTR bstrCmd, [out] BSTR* bstrRTMsg, [out,retval] LONG* bOK);
+	[, helpstring("method SendCommandA")] HRESULT SendCommandA([in] CHAR* Cmd, [out] CHAR* pRT,[out,retval] LONG* bOK);
 };
 [
 	object,
@@ -37,6 +47,43 @@ interface ICommandChannel : IUnknown{
 	pointer_default(unique)
 ]
 interface IScannerImage : IDispatch{
+	[propget, helpstring("property ImgHeight")] HRESULT ImgHeight([out, retval] LONG* pVal);
+	[propput, helpstring("property ImgHeight")] HRESULT ImgHeight([in] LONG newVal);
+	[propget, helpstring("property ImgWidth")] HRESULT ImgWidth([out, retval] LONG* pVal);
+	[propput, helpstring("property ImgWidth")] HRESULT ImgWidth([in] LONG newVal);
+	[propget, helpstring("property BytesPerPixel")] HRESULT BytesPerPixel([out, retval] LONG* pVal);
+	[propput, helpstring("property BytesPerPixel")] HRESULT BytesPerPixel([in] LONG newVal);
+	[propget, helpstring("property CardType")] HRESULT ChannelType([out, retval] LONG* pVal);
+	[propput, helpstring("property CardType")] HRESULT ChannelType([in] LONG newVal);
+	[propget, helpstring("property ImagePort")] HRESULT ImagePort([out, retval] LONG* pVal);
+	[propput, helpstring("property ImagePort")] HRESULT ImagePort([in] LONG newVal);
+	[propget, helpstring("property DetectorObject")] HRESULT DetectorObject([out, retval] IUnknown**  pVal);
+	[propput, helpstring("property DetectorObject")] HRESULT DetectorObject([in] IUnknown* newVal);
+	[propget, helpstring("property IsOpened")] HRESULT IsOpened([out, retval] LONG* pVal);
+	[propget, helpstring("property LastErrID")] HRESULT LastErrID([out, retval] LONG* pVal);
+	[, helpstring("method Open")] HRESULT Open([out,retval] LONG* bOK);
+	[, helpstring("method Close")] HRESULT Close(void);
+	[, helpstring("method Grab")] HRESULT Grab([in] LONG FrameNum, [out,retval] LONG* bOK);
+	[, helpstring("method Snap")] HRESULT Snap([in] LONG FrameNum, [out,retval] LONG* bOK);
+	[, helpstring("method PrintErrMsg")] HRESULT PrintErrMsg([in] LONG ErrID, [out] BSTR* ErrMsg);
+	
+	[propget, helpstring("property SubFrameHeight")] HRESULT SubFrameHeight([out, retval] LONG* pVal);
+	[propput, helpstring("property SubFrameHeight")] HRESULT SubFrameHeight([in] LONG newVal);
+	[, helpstring("method Stop")] HRESULT Stop(void);
+	[propget, helpstring("property IsGrabing")] HRESULT IsGrabing([out, retval] LONG* pVal);
+	[propget, helpstring("property ImageObject")] HRESULT ImageObject([out, retval] IUnknown** pVal);
+	[propget, helpstring("property BandWidth")] HRESULT BandWidth([out, retval] LONG* pVal);
+	[propget, helpstring("property ObjectHandle")] HRESULT ObjectHandle([out, retval] IUnknown** pVal);
+	[propget, helpstring("property TimeOut")] HRESULT TimeOut([out, retval] LONG* pVal);
+	[propput, helpstring("property TimeOut")] HRESULT TimeOut([in] LONG newVal);
+	[propget, helpstring("property ExFrameTrigger")] HRESULT ExFrameTrigger([out, retval] LONG* pVal);
+	[propput, helpstring("property ExFrameTrigger")] HRESULT ExFrameTrigger([in] LONG newVal);
+	[propget] HRESULT DualScanMode([out, retval] LONG* pVal);
+	[propput] HRESULT DualScanMode([in] LONG newVal);
+	[] HRESULT OpenMemImage(LONG width, LONG height, BYTE* data);
+	[] HRESULT Advise([in] IFrameReadyCallBack* pCallBack, [out] long* cookie);
+	[] HRESULT UnAdvise([in] LONG cookie);
+
 };
 [
 	object,
@@ -46,41 +93,41 @@ interface IScannerImage : IDispatch{
 	pointer_default(unique)
 ]
 interface IScannerDisplay : IDispatch{
-	//[propget, id(1), helpstring("property Width")] HRESULT ImgWidth([out, retval] ULONG* pVal);
-	//[propput, id(1), helpstring("property Width")] HRESULT ImgWidth([in] ULONG newVal);
-	//[propget, id(2), helpstring("property Height")] HRESULT ImgHeight([out, retval] ULONG* pVal);
-	//[propput, id(2), helpstring("property Height")] HRESULT ImgHeight([in] ULONG newVal);
-	//
-	//[propget, id(3), helpstring("property Gamma")] HRESULT Gamma([out, retval] FLOAT* pVal);
-	//[propput, id(3), helpstring("property Gamma")] HRESULT Gamma([in] FLOAT newVal);
-	//[propget, id(4), helpstring("property MapStart")] HRESULT MapStart([out, retval] LONG* pVal);
-	//[propput, id(4), helpstring("property MapStart")] HRESULT MapStart([in] LONG newVal);
-	//[propget, id(5), helpstring("property MapEnd")] HRESULT MapEnd([out, retval] LONG* pVal);
-	//[propput, id(5), helpstring("property MapEnd")] HRESULT MapEnd([in] LONG newVal);
+	[propget, id(1), helpstring("property Width")] HRESULT ImgWidth([out, retval] ULONG* pVal);
+	[propput, id(1), helpstring("property Width")] HRESULT ImgWidth([in] ULONG newVal);
+	[propget, id(2), helpstring("property Height")] HRESULT ImgHeight([out, retval] ULONG* pVal);
+	[propput, id(2), helpstring("property Height")] HRESULT ImgHeight([in] ULONG newVal);
+	
+	[propget, id(3), helpstring("property Gamma")] HRESULT Gamma([out, retval] FLOAT* pVal);
+	[propput, id(3), helpstring("property Gamma")] HRESULT Gamma([in] FLOAT newVal);
+	[propget, id(4), helpstring("property MapStart")] HRESULT MapStart([out, retval] LONG* pVal);
+	[propput, id(4), helpstring("property MapStart")] HRESULT MapStart([in] LONG newVal);
+	[propget, id(5), helpstring("property MapEnd")] HRESULT MapEnd([out, retval] LONG* pVal);
+	[propput, id(5), helpstring("property MapEnd")] HRESULT MapEnd([in] LONG newVal);
 
-	//[propget, id(6), helpstring("property DataSource")] HRESULT DataSource([out, retval] IUnknown** pVal);
-	//[propput, id(6), helpstring("property DataSource")] HRESULT DataSource([in] IUnknown* newVal);
+	[propget, id(6), helpstring("property DataSource")] HRESULT DataSource([out, retval] IUnknown** pVal);
+	[propput, id(6), helpstring("property DataSource")] HRESULT DataSource([in] IUnknown* newVal);
 
-	//[id(8), helpstring("method Open")] HRESULT Open([out,retval] LONG* bOK);
-	//[id(9), helpstring("method Close")] HRESULT Close(void);
+	[id(8), helpstring("method Open")] HRESULT Open([out,retval] LONG* bOK);
+	[id(9), helpstring("method Close")] HRESULT Close(void);
 
-	//[propget, id(10), helpstring("property RefreshMode")] HRESULT RefreshMode([out, retval] LONG* pVal);
-	//[propput, id(10), helpstring("property RefreshMode")] HRESULT RefreshMode([in] LONG newVal);
-	//[propget, id(11), helpstring("property RefreshRate")] HRESULT RefreshRate([out, retval] LONG* pVal);
-	//[propput, id(11), helpstring("property RefreshRate")] HRESULT RefreshRate([in] LONG newVal);
-	//[propget, id(12), helpstring("property ImageObject")] HRESULT ImageObject([out, retval] IUnknown** pVal);
-	//[propget, id(13), helpstring("property DisplayScale")] HRESULT DisplayScale([out, retval] LONG* pVal);
-	//[propput, id(13), helpstring("property DisplayScale")] HRESULT DisplayScale([in] LONG newVal);
-	//
-	//[id(14), helpstring("method Refresh")] HRESULT Refresh(void);
-	//[propget, id(15), helpstring("property OrgPoint_X")] HRESULT OrgPoint_X([out, retval] LONG* pVal);
-	//[propput, id(15), helpstring("property OrgPoint_X")] HRESULT OrgPoint_X([in] LONG newVal);
-	//[propget, id(16), helpstring("property OrgPoint_Y")] HRESULT OrgPoint_Y([out, retval] LONG* pVal);
-	//[propput, id(16), helpstring("property OrgPoint_Y")] HRESULT OrgPoint_Y([in] LONG newVal);
-	//[id(17), helpstring("method Load")] HRESULT Load(BSTR FilePath);
-	//[id(18), helpstring("method Save")] HRESULT Save(BSTR FilePath);
-	//[propget, id(19), helpstring("property ObjectHandle")] HRESULT ObjectHandle([out, retval] IUnknown** pVal);
-	//[id(20), helpstring("method RepaintDisplay")] HRESULT RepaintDisplay(void);
+	[propget, id(10), helpstring("property RefreshMode")] HRESULT RefreshMode([out, retval] LONG* pVal);
+	[propput, id(10), helpstring("property RefreshMode")] HRESULT RefreshMode([in] LONG newVal);
+	[propget, id(11), helpstring("property RefreshRate")] HRESULT RefreshRate([out, retval] LONG* pVal);
+	[propput, id(11), helpstring("property RefreshRate")] HRESULT RefreshRate([in] LONG newVal);
+	[propget, id(12), helpstring("property ImageObject")] HRESULT ImageObject([out, retval] IUnknown** pVal);
+	[propget, id(13), helpstring("property DisplayScale")] HRESULT DisplayScale([out, retval] LONG* pVal);
+	[propput, id(13), helpstring("property DisplayScale")] HRESULT DisplayScale([in] LONG newVal);
+	
+	[id(14), helpstring("method Refresh")] HRESULT Refresh(void);
+	[propget, id(15), helpstring("property OrgPoint_X")] HRESULT OrgPoint_X([out, retval] LONG* pVal);
+	[propput, id(15), helpstring("property OrgPoint_X")] HRESULT OrgPoint_X([in] LONG newVal);
+	[propget, id(16), helpstring("property OrgPoint_Y")] HRESULT OrgPoint_Y([out, retval] LONG* pVal);
+	[propput, id(16), helpstring("property OrgPoint_Y")] HRESULT OrgPoint_Y([in] LONG newVal);
+	[id(17), helpstring("method Load")] HRESULT Load(BSTR FilePath);
+	[id(18), helpstring("method Save")] HRESULT Save(BSTR FilePath);
+	[propget, id(19), helpstring("property ObjectHandle")] HRESULT ObjectHandle([out, retval] IUnknown** pVal);
+	[id(20), helpstring("method RepaintDisplay")] HRESULT RepaintDisplay(void);
 
 };
 
@@ -115,73 +162,74 @@ interface IFrameObject : IUnknown{
 	pointer_default(unique)
 ]
 interface IScanner : IUnknown{
-	//[propget, id(1), helpstring("property DetectorObject")] HRESULT DetectorObject([out, retval] IUnknown** pVal);
-	//[propput, id(1), helpstring("property DetectorObject")] HRESULT DetectorObject([in] IUnknown* newVal);
-	//[id(2), helpstring("method OffBoardCalibration")] HRESULT OffBoardCalibration([in] LONG CalibrationType, [in] IUnknown* pImgObject, [in] LONG StartPixel, [in] LONG EndPixel, [in] LONG TargetValue);
+	[propget, helpstring("property DetectorObject")] HRESULT DetectorObject([out, retval] IUnknown** pVal);
+	[propput, helpstring("property DetectorObject")] HRESULT DetectorObject([in] IUnknown* newVal);
+	[, helpstring("method OffBoardCalibration")] HRESULT OffBoardCalibration([in] LONG CalibrationType, [in] IUnknown* pImgObject, [in] LONG StartPixel, [in] LONG EndPixel, [in] LONG TargetValue);
 
-	//[propget, id(3), helpstring("property Gain")] HRESULT Gain([in] LONG Index, [out, retval] FLOAT* pVal);
-	//[propput, id(3), helpstring("property Gain")] HRESULT Gain([in] LONG Index, [in] FLOAT newVal);
-	//[propget, id(4), helpstring("property Offset")] HRESULT Offset([in] LONG Index, [out, retval] LONG* pVal);
-	//[propput, id(4), helpstring("property Offset")] HRESULT Offset([in] LONG Index, [in] LONG newVal);
-	//[propget, id(5), helpstring("property CorrectionGain")] HRESULT CorrectionGain([out, retval] LONG* pVal);
-	//[propput, id(5), helpstring("property CorrectionGain")] HRESULT CorrectionGain([in] LONG newVal);
-	//[propget, id(6), helpstring("property CorrectionOffset")] HRESULT CorrectionOffset([out, retval] LONG* pVal);
-	//[propput, id(6), helpstring("property CorrectionOffset")] HRESULT CorrectionOffset([in] LONG newVal);
-	//[propget, id(7), helpstring("property CorrectionBaseline")] HRESULT CorrectionBaseline([out, retval] LONG* pVal);
-	//[propput, id(7), helpstring("property CorrectionBaseline")] HRESULT CorrectionBaseline([in] LONG newVal);
-	//[propget, id(8), helpstring("property Baseline")] HRESULT Baseline([out, retval] LONG* pVal);
-	//[propput, id(8), helpstring("property Baseline")] HRESULT Baseline([in] LONG newVal);
-	//[propget, id(9), helpstring("property IntegrationTime")] HRESULT IntegrationTime([out, retval] LONG* pVal);
-	//[propput, id(9), helpstring("property IntegrationTime")] HRESULT IntegrationTime([in] LONG newVal);
-	//[propget, id(10), helpstring("property AverageFilter")] HRESULT AverageFilter([out, retval] LONG* pVal);
-	//[propput, id(10), helpstring("property AverageFilter")] HRESULT AverageFilter([in] LONG newVal);
-	//[propget, id(11), helpstring("property DataPattern")] HRESULT DataPattern([out, retval] LONG* pVal);
-	//[propput, id(11), helpstring("property DataPattern")] HRESULT DataPattern([in] LONG newVal);
-	//[propget, id(12), helpstring("property FrameTrigger")] HRESULT FrameTrigger([out, retval] LONG* pVal);
-	//[propput, id(12), helpstring("property FrameTrigger")] HRESULT FrameTrigger([in] LONG newVal);
-	//[propget, id(13), helpstring("property LineTrigger")] HRESULT LineTrigger([out, retval] LONG* pVal);
-	//[propput, id(13), helpstring("property LineTrigger")] HRESULT LineTrigger([in] LONG newVal);
-	//[id(14), helpstring("method Initialize")] HRESULT Initialize([in] LONG Mode);
-	//[id(15), helpstring("method SaveOffset")] HRESULT SaveOffset(void);
-	//[id(16), helpstring("method SaveGain")] HRESULT SaveGain([in] LONG Index);
-	//[id(17), helpstring("method LoadOffset")] HRESULT LoadOffset(void);
-	//[id(18), helpstring("method LoadGain")] HRESULT LoadGain([in] LONG Index);
-	//[propget, id(19), helpstring("property OutputBits")] HRESULT OutputBits([out, retval] LONG* pVal);
-	//[propput, id(19), helpstring("property OutputBits")] HRESULT OutputBits([in] LONG newVal);
-	//[id(20), helpstring("method SendExFrameTrigger")] HRESULT SendExFrameTrigger(void);
-	//[propget, id(21), helpstring("property FrameOut")] HRESULT FrameOut([out, retval] LONG* pVal);
-	//[propput, id(21), helpstring("property FrameOut")] HRESULT FrameOut([in] LONG newVal);
-	//[propget, id(22), helpstring("property ImageOutputType")] HRESULT ImageOutputType([out, retval] LONG* pVal);
-	//[propput, id(22), helpstring("property ImageOutputType")] HRESULT ImageOutputType([in] LONG newVal);
-	//[propget, id(23), helpstring("property SensitivityLevel")] HRESULT SensitivityLevel([out, retval] LONG* pVal);
-	//[propput, id(23), helpstring("property SensitivityLevel")] HRESULT SensitivityLevel([in] LONG newVal);
-	//[propget, id(24), helpstring("property SumLines")] HRESULT SumLines([out, retval] LONG* pVal);
-	//[propput, id(24), helpstring("property SumLines")] HRESULT SumLines([in] LONG newVal);
-	//[id(25), helpstring("method WriteDataPattern")] HRESULT WriteDataPattern([in] LONG Base, [in] LONG Step);
-	//[propget, id(26), helpstring("property IsOpened")] HRESULT IsOpened([out, retval] LONG* pVal);
-	//[propget, id(27), helpstring("property ModuleTypeNmae")] HRESULT ModuleTypeName([out, retval] BSTR* pVal);
-	//[id(28), helpstring("method SaveCurrentStatus")] HRESULT SaveCurrentStatus(void);
-	//[propget, id(29), helpstring("property PixelSize")] HRESULT PixelSize([out, retval] FLOAT* pVal);
-	//[propget, id(30), helpstring("property PixelNumber")] HRESULT PixelNumber([out, retval] LONG* pVal);
-	//[propget, id(31), helpstring("property ModuleType")] HRESULT ModuleType([out, retval] LONG* pVal);
-	//[propget, id(32), helpstring("property MaxIntTime")] HRESULT MaxIntTime([out, retval] LONG* pVal);
-	//[propget, id(33), helpstring("property MinIntTime")] HRESULT MinIntTime([out, retval] LONG* pVal);
-	//[propget, id(34), helpstring("property OverallGain")] HRESULT OverallGain([out, retval] FLOAT* pVal);
-	//[propput, id(34), helpstring("property OverallGain")] HRESULT OverallGain([in] FLOAT newVal);
-	//[propget, id(35), helpstring("property StartPixel")] HRESULT StartPixel([out, retval] LONG* pVal);
-	//[propput, id(35), helpstring("property StartPixel")] HRESULT StartPixel([in] LONG newVal);
-	//[propget, id(36), helpstring("property EndPixel")] HRESULT EndPixel([out, retval] LONG* pVal);
-	//[propput, id(36), helpstring("property EndPixel")] HRESULT EndPixel([in] LONG newVal);
-	//[id(37), helpstring("method OnBoardOffsetCalibration")] HRESULT OnBoardOffsetCalibration(void);
-	//[id(38), helpstring("method OnBoardGainCalibration")] HRESULT OnBoardGainCalibration([in] LONG TargetValue);
-	//[id(39), helpstring("method ResetGain")] HRESULT ResetGain(void);
-	//[id(40), helpstring("method ResetOffset")] HRESULT ResetOffset(void);
-	//[propget, id(41), helpstring("property FPGA_Version")] HRESULT FPGA_Version([out, retval] LONG* pVal);
-	//[propget, id(42), helpstring("property FPGA_Build")] HRESULT FPGA_Build([out, retval] LONG* pVal);
-	//[propget, id(43), helpstring("property MCU_Version")] HRESULT MCU_Version([out, retval] LONG* pVal);
-	//
-	//[propget, id(44), helpstring("property SerialNumber")] HRESULT SerialNumber([out, retval] BSTR* pVal);
-	//[id(45), helpstring("method RetrieveSysinfo")] HRESULT RetrieveSysinfo(void);
+	[propget, helpstring("property Gain")] HRESULT Gain([in] LONG Index, [out, retval] FLOAT* pVal);
+	[propput, helpstring("property Gain")] HRESULT Gain([in] LONG Index, [in] FLOAT newVal);
+	[propget, helpstring("property Offset")] HRESULT Offset([in] LONG Index, [out, retval] LONG* pVal);
+	[propput, helpstring("property Offset")] HRESULT Offset([in] LONG Index, [in] LONG newVal);
+	[propget, helpstring("property CorrectionGain")] HRESULT CorrectionGain([out, retval] LONG* pVal);
+	[propput, helpstring("property CorrectionGain")] HRESULT CorrectionGain([in] LONG newVal);
+	[propget, helpstring("property CorrectionOffset")] HRESULT CorrectionOffset([out, retval] LONG* pVal);
+	[propput, helpstring("property CorrectionOffset")] HRESULT CorrectionOffset([in] LONG newVal);
+	[propget, helpstring("property CorrectionBaseline")] HRESULT CorrectionBaseline([out, retval] LONG* pVal);
+	[propput, helpstring("property CorrectionBaseline")] HRESULT CorrectionBaseline([in] LONG newVal);
+	[propget, helpstring("property Baseline")] HRESULT Baseline([out, retval] LONG* pVal);
+	[propput, helpstring("property Baseline")] HRESULT Baseline([in] LONG newVal);
+	[propget, helpstring("property IntegrationTime")] HRESULT IntegrationTime([out, retval] LONG* pVal);
+	[propput, helpstring("property IntegrationTime")] HRESULT IntegrationTime([in] LONG newVal);
+	[propget, helpstring("property AverageFilter")] HRESULT AverageFilter([out, retval] LONG* pVal);
+	[propput, helpstring("property AverageFilter")] HRESULT AverageFilter([in] LONG newVal);
+	[propget, helpstring("property DataPattern")] HRESULT DataPattern([out, retval] LONG* pVal);
+	[propput, helpstring("property DataPattern")] HRESULT DataPattern([in] LONG newVal);
+	[propget, helpstring("property FrameTrigger")] HRESULT FrameTrigger([out, retval] LONG* pVal);
+	[propput, helpstring("property FrameTrigger")] HRESULT FrameTrigger([in] LONG newVal);
+	[propget, helpstring("property LineTrigger")] HRESULT LineTrigger([out, retval] LONG* pVal);
+	[propput, helpstring("property LineTrigger")] HRESULT LineTrigger([in] LONG newVal);
+	[, helpstring("method Initialize")] HRESULT Initialize([in] LONG Mode);
+	[, helpstring("method SaveOffset")] HRESULT SaveOffset(void);
+	[, helpstring("method SaveGain")] HRESULT SaveGain([in] LONG Index);
+	[, helpstring("method LoadOffset")] HRESULT LoadOffset(void);
+	[, helpstring("method LoadGain")] HRESULT LoadGain([in] LONG Index);
+	[propget, helpstring("property OutputBits")] HRESULT OutputBits([out, retval] LONG* pVal);
+	[propput, helpstring("property OutputBits")] HRESULT OutputBits([in] LONG newVal);
+	[, helpstring("method SendExFrameTrigger")] HRESULT SendExFrameTrigger(void);
+	[propget, helpstring("property FrameOut")] HRESULT FrameOut([out, retval] LONG* pVal);
+	[propput, helpstring("property FrameOut")] HRESULT FrameOut([in] LONG newVal);
+	[propget, helpstring("property ImageOutputType")] HRESULT ImageOutputType([out, retval] LONG* pVal);
+	[propput, helpstring("property ImageOutputType")] HRESULT ImageOutputType([in] LONG newVal);
+	[propget, helpstring("property SensitivityLevel")] HRESULT SensitivityLevel([out, retval] LONG* pVal);
+	[propput, helpstring("property SensitivityLevel")] HRESULT SensitivityLevel([in] LONG newVal);
+	[propget, helpstring("property SumLines")] HRESULT SumLines([out, retval] LONG* pVal);
+	[propput, helpstring("property SumLines")] HRESULT SumLines([in] LONG newVal);
+	[id(25), helpstring("method WriteDataPattern")] HRESULT WriteDataPattern([in] LONG Base, [in] LONG Step);
+	[propget, helpstring("property IsOpened")] HRESULT IsOpened([out, retval] LONG* pVal);
+	[propget, helpstring("property ModuleTypeNmae")] HRESULT ModuleTypeName([out, retval] BSTR* pVal);
+	[, helpstring("method SaveCurrentStatus")] HRESULT SaveCurrentStatus(void);
+	[propget, helpstring("property PixelSize")] HRESULT PixelSize([out, retval] FLOAT* pVal);
+	[propget, helpstring("property PixelNumber")] HRESULT PixelNumber([out, retval] LONG* pVal);
+	[propget, helpstring("property ModuleType")] HRESULT ModuleType([out, retval] LONG* pVal);
+	[propget, helpstring("property MaxIntTime")] HRESULT MaxIntTime([out, retval] LONG* pVal);
+	[propget, helpstring("property MinIntTime")] HRESULT MinIntTime([out, retval] LONG* pVal);
+	[propget, helpstring("property OverallGain")] HRESULT OverallGain([out, retval] FLOAT* pVal);
+	[propput, helpstring("property OverallGain")] HRESULT OverallGain([in] FLOAT newVal);
+	[propget, helpstring("property StartPixel")] HRESULT StartPixel([out, retval] LONG* pVal);
+	[propput, helpstring("property StartPixel")] HRESULT StartPixel([in] LONG newVal);
+	[propget, helpstring("property EndPixel")] HRESULT EndPixel([out, retval] LONG* pVal);
+	[propput, helpstring("property EndPixel")] HRESULT EndPixel([in] LONG newVal);
+	[, helpstring("method OnBoardOffsetCalibration")] HRESULT OnBoardOffsetCalibration(void);
+	[, helpstring("method OnBoardGainCalibration")] HRESULT OnBoardGainCalibration([in] LONG TargetValue);
+	[, helpstring("method ResetGain")] HRESULT ResetGain(void);
+	[, helpstring("method ResetOffset")] HRESULT ResetOffset(void);
+	[propget, helpstring("property FPGA_Version")] HRESULT FPGA_Version([out, retval] LONG* pVal);
+	[propget, helpstring("property FPGA_Build")] HRESULT FPGA_Build([out, retval] LONG* pVal);
+	[propget, helpstring("property MCU_Version")] HRESULT MCU_Version([out, retval] LONG* pVal);
+	
+	[propget, helpstring("property SerialNumber")] HRESULT SerialNumber([out, retval] BSTR* pVal);
+	[, helpstring("method RetrieveSysinfo")] HRESULT RetrieveSysinfo(void);
+	
 
 };
 [
@@ -225,7 +273,7 @@ library DetectorControlLib
 	{
 		properties:
 		methods:
-			[id(1), helpstring("method MouseMove")] HRESULT MousePixelInfo([in] LONG X, [in] LONG Y,[in] LONG Value);
+			[id(1), helpstring("method MouseMove Over Pixel")] HRESULT MousePixelInfo([in] LONG X, [in] LONG Y,[in] LONG Value);
 	};
 	[
 		uuid(34A39CDC-773F-494E-B0F0-7FCB71A5256E),		

@@ -1,19 +1,20 @@
 #pragma once
-class CDTImage;
-class IDTImageEventSink
+
+class CScannerImage;
+class IFrameEventSink
 {
 private:
 
 protected:
-	CDTImage* m_pDataSrc;
+    CScannerImage* m_pDataSrc;
 	LONG		m_Cookie;
-	void ConnectDataSrc(CDTImage* pSrc);
+	void ConnectDataSrc(CScannerImage* pSrc);
 	void DisConnectDataSrc();
 public:
-	IDTImageEventSink(void);
-	virtual ~IDTImageEventSink(void);
+    IFrameEventSink(void);
+    virtual ~IFrameEventSink(void);
 	virtual void OnFrameReady(LONG LineNum){};
 	virtual void OnSubFrameReady(LONG NumOfBlockLeft, LONG StartLine, LONG NumLines, BYTE bLastBlock){};
 	virtual void OnDatalost(LONG LostlineNum){};
-	virtual void OnDTError(LONG ErrorID, BSTR ErrorInfo){};
+	virtual void OnScannerError(LONG ErrorID, BSTR ErrorInfo){};
 };

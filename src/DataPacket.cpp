@@ -1,7 +1,7 @@
-#include "StdAfx.h"
-#include ".\dtppacket.h"
+#include <Windows.h>
+#include "datapacket.h"
 
-CDTPUSBPacket::CDTPUSBPacket(DWORD BufSize):CDTPPacketIF()
+CDataPacket::CDataPacket(DWORD BufSize):CDataPacketIF()
 {
 	m_pBuf = new BYTE[BufSize];
 	if(m_pBuf)
@@ -18,7 +18,7 @@ CDTPUSBPacket::CDTPUSBPacket(DWORD BufSize):CDTPPacketIF()
 	m_pNext = NULL;;
 }
 
-CDTPUSBPacket::~CDTPUSBPacket(void)
+CDataPacket::~CDataPacket(void)
 {
 	if(m_BufSize>0)
 	{
@@ -29,52 +29,57 @@ CDTPUSBPacket::~CDTPUSBPacket(void)
 	}
 
 }
-DWORD CDTPUSBPacket::GetBufSize()
+
+DWORD CDataPacket::GetBufSize()
 {
 	return m_BufSize;
 }
 
-BYTE* CDTPUSBPacket::GetBuf()//called by datasrc to copy data from driver
+BYTE* CDataPacket::GetBuf()//called by datasrc to copy data from driver
 {
 	return (m_pBuf+m_FirstIndex);
 }
-DWORD CDTPUSBPacket::GetFirstIndex()
+DWORD CDataPacket::GetFirstIndex()
 {
 	return m_FirstIndex;
 }
-void  CDTPUSBPacket::MoveFirstToWithOffset(DWORD pos)//Called by dtpqueue after copy to Frame buffer 
+void  CDataPacket::MoveFirstToWithOffset(DWORD pos)//Called by queue after copy to Frame buffer
 {
 	m_FirstIndex += pos;//decrease the copied part
 	m_DataLen -= pos; //recaculate the avalible size
 }
-void  CDTPUSBPacket::Reset()
+void  CDataPacket::Reset()
 {
 	
 	Clear();
 	m_pNext =NULL;
 }
-void CDTPUSBPacket::Clear()
+void CDataPacket::Clear()
 {
 	m_FirstIndex = 0;
 	m_DataLen = 0;
-};
-DWORD CDTPUSBPacket::GetDTPLen()//offset is start from First. Becalled to get the Len
+}
+
+DWORD CDataPacket::GetDataPacketLen()//offset is start from First. Becalled to get the Len
 {
 	return m_DataLen;
 }
-void  CDTPUSBPacket::SetNext(CDTPPacketIF* pNext)
+
+void  CDataPacket::SetNext(CDataPacketIF* pNext)
 {
 	m_pNext = pNext;
 }
-CDTPPacketIF* CDTPUSBPacket::GetNext()
+
+CDataPacketIF* CDataPacket::GetNext()
 {
 	return m_pNext;
 }
-void  CDTPUSBPacket::SetDataSize(DWORD len)
+
+void  CDataPacket::SetDataSize(DWORD len)
 {
 	m_DataLen = len;
 }
-void CDTPUSBPacket::Trace(FILE * pFile)
+void CDataPacket::Trace(FILE * pFile)
 {//Here append the Trace recoed to the File
 	fprintf(pFile,"\nm_FirstIndex is %04X	Len is %d	\n",m_FirstIndex,m_DataLen);
 	for(DWORD i = 0;i<(m_DataLen+m_FirstIndex);i++)
